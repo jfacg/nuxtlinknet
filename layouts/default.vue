@@ -98,6 +98,7 @@
 
 <script>
 /* eslint-disable no-console */
+/* eslint-disable vue/no-side-effects-in-computed-properties */
 import { TOKEN_NAME } from '@/config/config'
 export default {
   name: 'Default',
@@ -135,12 +136,33 @@ export default {
     await this.$store.dispatch('auth/autenticado')
   },
 
-  mounted () {
-    this.autenticado = this.$store.getters['auth/usuarioAutenticado']
-    this.permissoes = this.autenticado.roles[0].permissions
+  computed: {
+    atualizarAutenticado () {
+      // eslint-disable-next-line no-return-assign
+      return this.autenticado = this.$store.getters['auth/usuarioAutenticado']
+    }
+
   },
 
+  // beforeMount () {
+  //   this.autenticado = this.$store.getters['auth/usuarioAutenticado']
+  //   this.autenticado.roles.forEach((funcao) => {
+  //     funcao.permissions.forEach((permissao) => {
+  //       this.permissoes.push(permissao)
+  //     })
+  //   })
+  // },
+
   methods: {
+    // atualizarPermissoes () {
+    //   this.autenticado = this.$store.getters['auth/usuarioAutenticado']
+    //   this.autenticado.roles.forEach((funcao) => {
+    //     funcao.permissions.forEach((permissao) => {
+    //       this.permissoes.push(permissao)
+    //     })
+    //   })
+    //   return this.autenticado
+    // },
     sair () {
       this.$storage.removeUniversal(TOKEN_NAME)
       this.$store.commit('auth/set_autenticado', false)
@@ -148,10 +170,15 @@ export default {
     },
 
     verificarPermissao (item) {
-      // console.log(item)
-      // console.log(this.permissoes)
+      const permissoes = []
+
+      this.$store.getters['auth/usuarioAutenticado'].roles.forEach((funcao) => {
+        funcao.permissions.forEach((permissao) => {
+          permissoes.push(permissao)
+        })
+      })
       let result = false
-      this.permissoes.forEach((permission) => {
+      permissoes.forEach((permission) => {
         if (permission.name === item || item === '') {
           // console.log(true)
           result = true

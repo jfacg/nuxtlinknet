@@ -20,7 +20,7 @@ export default {
   },
 
   server: {
-    port: 8000 // default: 3000
+    port: 3000 // default: 3000
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://laralinknet.test:81/api/'
+    // baseURL: 'http://laralinknet.test:81/api/'
 
   },
 

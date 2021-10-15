@@ -31,7 +31,7 @@ const actions = {
         vuexContext.commit('set_token', token)
         vuexContext.commit('set_autenticado', true)
 
-        this.$axios.$get(URI_BASE_API + API_VERSION + '/roles/' + funcao.id + '/permissions')
+        this.$axios.$get(URI_BASE_API + API_VERSION + '/funcoes/' + funcao.id + '/permissoes')
           .then((response) => {
             const permissoes = response.data
             vuexContext.commit('set_permissoes', permissoes)
