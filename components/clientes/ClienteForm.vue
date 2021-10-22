@@ -143,7 +143,7 @@ import { required, minLength, numeric, maxLength, email } from 'vuelidate/lib/va
 import { validationMixin } from 'vuelidate'
 
 export default {
-  name: 'ClientesForm',
+  name: 'ClienteForm',
   components: {
   },
 

@@ -18,40 +18,51 @@
             <v-breadcrumbs :items="items" />
           </v-card-subtitle>
           <v-card-text>
-            <v-col cols="6">
-              <v-card
-                color="#385F73"
-                dark
-              >
-                <v-card-title class="text-h5">
-                  Cliente
-                </v-card-title>
+            <v-row>
+              <v-col cols="6">
+                <v-card
+                  color="#385F73"
+                  dark
+                >
+                  <v-card-title class="text-h5">
+                    Cliente
+                  </v-card-title>
 
-                <v-card-subtitle>
-                  Nome: {{ cliente.name }} <br>
-                  CPF: {{ cliente.cpf }} <br>
-                  Data de Nascimento: {{ cliente.birthday }} <br>
-                  Celular: {{ cliente.cellPhone1 }} <br>
-                  Celular: {{ cliente.cellPhone2 }} <br>
-                  Email: {{ cliente.email }} <br>
-                  Endereço: {{ cliente.street }}, {{ cliente.number }} - {{ cliente.complement }} <br>
-                  Bairro: {{ cliente.district }} <br>
-                  Cidade: {{ cliente.city }} - {{ cliente.state }} <br>
-                </v-card-subtitle>
+                  <v-card-subtitle>
+                    Nome: {{ cliente.name }} <br>
+                    CPF: {{ formataCpf(cliente.cpf) }} <br>
+                    Data de Nascimento: {{ cliente.birthday }} <br>
+                    Celular: {{ formataCell(cliente.cellPhone1) }} <br>
+                    Celular: {{ formataCell(cliente.cellPhone2) }} <br>
+                    Email: {{ cliente.email }} <br>
+                    Endereço: {{ cliente.street }}, {{ cliente.number }} - {{ cliente.complement }} <br>
+                    Bairro: {{ cliente.district }} <br>
+                    Cidade: {{ cliente.city }} - {{ cliente.state }} <br>
+                  </v-card-subtitle>
 
-                <v-card-actions>
-                  <v-btn
-                    elevation="10"
-                    text
-                    color="red"
-                    @click.prevent="excluir()"
-                  >
-                    <v-icon>delete</v-icon>
-                    Excluir
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-col>
+                  <v-card-actions>
+                    <v-btn
+                      elevation="10"
+                      text
+                      color="red"
+                      @click.prevent="excluir()"
+                    >
+                      <v-icon>delete</v-icon>
+                      Excluir
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+              <v-col cols="6">
+                <v-btn
+                  block
+                  color="primary"
+                  :to="{name: 'servicos-criar-instalacao-idCliente', params: {idCliente: cliente.id }}"
+                >
+                  Agendar Instalação
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -60,9 +71,12 @@
 </template>
 <script>
 import { URI_BASE_API, API_VERSION } from '@/config/config'
+import FormatacaoMixin from '~/plugins/mixins/FormatacaoMixin'
 /* eslint-disable no-console */
 export default {
   name: 'ClienteDetalhes',
+
+  mixins: [FormatacaoMixin],
 
   asyncData (context) {
     return context.$axios.$get(URI_BASE_API + API_VERSION + '/clientes/' + context.params.id)
@@ -94,7 +108,12 @@ export default {
     ]
   }),
 
+  created () {
+    // console.log(this)
+  },
+
   methods: {
+
     excluir () {
       this.$store.dispatch('clientes/excluirCliente', this.cliente)
         .then(() => {

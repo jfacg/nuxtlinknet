@@ -4,32 +4,25 @@ import { URI_BASE_API, API_VERSION } from '@/config/config'
 const actions = {
   nuxtServerInit (vuexContext, context) {
     return context.$axios
-      .$get(URI_BASE_API + API_VERSION + '/clientes')
+      .$get(URI_BASE_API + API_VERSION + '/servicos')
       .then((data) => {
-        vuexContext.commit('clientes/inserir_clientes', data)
+        vuexContext.commit('servicos/inserir_servicos', data)
       })
   },
 
-  async buscarClienteInstalacao (vuexContext, params) {
-    return await new Promise((resolve, reject) => {
-      this.$axios.$get(URI_BASE_API + API_VERSION + '/clientes/' + params.id)
-        .then((response) => {
-          console.log('buscarClienteInstalacao: ')
-          console.log(response)
-          vuexContext.commit('inserir_clienteInstalacao', response)
-          return resolve(response)
-        })
-        .catch((e) => {
-          return reject(e.response.data)
-        })
-    })
-  },
+  // async listarPlanosIxc ({ commit, dispatch }, params) {
+  //   return await axios.get(`${URN}/planos`, params)
+  //     .then(response => {
+  //       const planos = response.data
+  //       commit('SET_PLANOSIXC', planos)
+  //     })
+  // }.
 
-  async criarCliente (vuexContext, params) {
+  async listarPlanosIxc (vuexContext, params) {
     return await new Promise((resolve, reject) => {
-      this.$axios.$post(URI_BASE_API + API_VERSION + '/clientes', params)
+      this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/planos', params)
         .then((response) => {
-          vuexContext.commit('adicionar_cliente', response)
+          vuexContext.commit('inserir_planosIxc', response)
           return resolve(response)
         })
         .catch((e) => {

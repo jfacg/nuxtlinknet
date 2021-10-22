@@ -29,10 +29,11 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // { src: '~/plugins/vuelidate.js', mode: 'client' }
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~/plugins/vue-viacep.js', ssr: false },
-    { src: '~/plugins/vuetify-mask.js', ssr: false }
+    { src: '~/plugins/vuetify-mask.js', ssr: false },
+    { src: '~/plugins/moment.js', ssr: false }
+    // { src: '~/plugins/mixins/mixins.js', ssr: false }
 
   ],
 
@@ -46,6 +47,12 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify'
   ],
+
+  moment: {
+    defaultLocale: 'br',
+    locales: ['br'],
+    defaultTimezone: 'America/Recife'
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

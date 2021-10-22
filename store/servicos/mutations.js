@@ -1,17 +1,11 @@
 /* eslint-disable no-console */
 const mutations = {
-  inserir_clientes (state, clientes) {
-    state.clientes = clientes
+  inserir_servicos (state, servicos) {
+    state.servicos = servicos
   },
 
-  inserir_clienteInstalacao (state, cliente) {
-    state.clienteInstalacao = {}
-    state.clienteInstalacao = cliente
-    // console.log('mutation')
-  },
-
-  adicionar_cliente (state, cliente) {
-    state.clientes.push(cliente)
+  adicionar_servico (state, servico) {
+    state.servicos.push(servico)
   },
 
   excluir_cliente (state, clienteExcluir) {
@@ -21,11 +15,11 @@ const mutations = {
     state.clientes.splice(clienteIndex, 1)
   },
 
-  editar_cliente (state, clienteEditado) {
-    const clienteIndex = state.clientes.findIndex(
-      cliente => cliente.id === clienteEditado.id
+  editar_servico (state, servicoEditado) {
+    const servicoIndex = state.servicos.findIndex(
+      servico => servico.id === servicoEditado.id
     )
-    state.clientes[clienteIndex] = clienteEditado
+    state.servicos[servicoIndex] = servicoEditado
   }
 
   // atualizar_permissoes_funcao (state, funcaoEditado) {

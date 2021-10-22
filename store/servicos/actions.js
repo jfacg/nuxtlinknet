@@ -4,19 +4,17 @@ import { URI_BASE_API, API_VERSION } from '@/config/config'
 const actions = {
   nuxtServerInit (vuexContext, context) {
     return context.$axios
-      .$get(URI_BASE_API + API_VERSION + '/clientes')
+      .$get(URI_BASE_API + API_VERSION + '/servicos')
       .then((data) => {
-        vuexContext.commit('clientes/inserir_clientes', data)
+        vuexContext.commit('servicos/inserir_servicos', data)
       })
   },
 
-  async buscarClienteInstalacao (vuexContext, params) {
+  async criarServico (vuexContext, params) {
     return await new Promise((resolve, reject) => {
-      this.$axios.$get(URI_BASE_API + API_VERSION + '/clientes/' + params.id)
+      this.$axios.$post(URI_BASE_API + API_VERSION + '/servicos', params)
         .then((response) => {
-          console.log('buscarClienteInstalacao: ')
-          console.log(response)
-          vuexContext.commit('inserir_clienteInstalacao', response)
+          vuexContext.commit('adicionar_servico', response)
           return resolve(response)
         })
         .catch((e) => {
@@ -25,25 +23,12 @@ const actions = {
     })
   },
 
-  async criarCliente (vuexContext, params) {
+  async editarServico (vuexContext, params) {
     return await new Promise((resolve, reject) => {
-      this.$axios.$post(URI_BASE_API + API_VERSION + '/clientes', params)
-        .then((response) => {
-          vuexContext.commit('adicionar_cliente', response)
-          return resolve(response)
-        })
-        .catch((e) => {
-          return reject(e.response.data)
-        })
-    })
-  },
-
-  async editarCliente (vuexContext, params) {
-    return await new Promise((resolve, reject) => {
-      this.$axios.$put(URI_BASE_API + API_VERSION + '/clientes/' + params.id, params)
+      this.$axios.$put(URI_BASE_API + API_VERSION + '/servicos/' + params.id, params)
         .then((response) => {
           if (response) {
-            vuexContext.commit('editar_cliente', params)
+            vuexContext.commit('editar_servico', params)
             return resolve()
           }
         })

@@ -115,13 +115,13 @@ export default {
           to: '/',
           permissao: ''
         },
-        { title: 'Dashboard', icon: 'dashboard', permissao: '' },
+        { title: 'Dashboard', icon: 'dashboard', to: '/dashboard', permissao: '' },
         { title: 'Usuários', icon: 'person', to: '/usuarios', permissao: 'admin' },
         { title: 'Função', icon: 'work', to: '/funcoes', permissao: 'admin' },
         { title: 'Permissões', icon: 'lock', to: '/permissoes', permissao: 'admin' },
         { title: 'Clientes', icon: 'group', to: '/clientes', permissao: 'clientes' },
-        { title: 'Projetos FTTH', to: '/projetos', icon: 'build', permissao: 'projetos' },
-        { title: 'Serviços', icon: 'build', permissao: 'servicos' }
+        { title: 'Projetos FTTH', icon: 'build', to: '/projetos', permissao: 'projetos' },
+        { title: 'Serviços', icon: 'build', to: '/servicos', permissao: 'servicos' }
       ],
       miniVariant: false,
       right: true,
@@ -144,25 +144,8 @@ export default {
 
   },
 
-  // beforeMount () {
-  //   this.autenticado = this.$store.getters['auth/usuarioAutenticado']
-  //   this.autenticado.roles.forEach((funcao) => {
-  //     funcao.permissions.forEach((permissao) => {
-  //       this.permissoes.push(permissao)
-  //     })
-  //   })
-  // },
-
   methods: {
-    // atualizarPermissoes () {
-    //   this.autenticado = this.$store.getters['auth/usuarioAutenticado']
-    //   this.autenticado.roles.forEach((funcao) => {
-    //     funcao.permissions.forEach((permissao) => {
-    //       this.permissoes.push(permissao)
-    //     })
-    //   })
-    //   return this.autenticado
-    // },
+
     sair () {
       this.$storage.removeUniversal(TOKEN_NAME)
       this.$store.commit('auth/set_autenticado', false)

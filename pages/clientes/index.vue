@@ -140,8 +140,6 @@ export default {
 
   computed: {
     listarClientes () {
-      // eslint-disable-next-line no-console
-      // console.log(this.$store)
       return this.$store.getters['clientes/listar_clientes'].filter((clientes) => {
         return clientes.name.toLowerCase().match(this.search.toLowerCase())
       })
