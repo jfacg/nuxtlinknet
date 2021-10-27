@@ -22,35 +22,38 @@
           <v-card-text>
             <v-row>
               <v-col>
-                <v-card
-                  color="#385F73"
-                  dark
-                >
-                  <v-card-title class="text-h5">
+                <v-card>
+                  <v-card-title
+                    class="text-h5"
+                    style="background:#385F73; color:white;"
+                  >
                     DADOS DO CLIENTE
                   </v-card-title>
 
                   <v-card-text>
+                    <br>
                     Cliente: {{ servico.cliente.name }} <br>
                     Data de Nascimento: {{ servico.cliente.birthday }} <br>
                     CPF: {{ servico.cliente.cpf }}<br>
                     Email: {{ servico.cliente.email }}<br>
-                    Contato 1: {{ servico.cliente.cellPhone1 }} - Contato 2: {{ servico.cliente.cellPhone2 }}<br>
-                    Endereço: {{ servico.cliente.street }},{{ servico.cliente.number }}<br>
+                    Contato 1: {{ servico.cliente.cellPhone1 }} - Contato 2: {{ servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' }}<br>
+                    Endereço: {{ servico.cliente.street }}, {{ servico.cliente.number }}<br>
+                    Complemento: {{ servico.cliente.complement }}<br>
                     Bairro: {{ servico.cliente.district }} - CEP: {{ servico.cliente.cep }}<br>
                     Cidade: {{ servico.cliente.city }} - {{ servico.cliente.state }}<br>
                   </v-card-text>
                 </v-card>
                 <br>
-                <v-card
-                  color="#385F73"
-                  dark
-                >
-                  <v-card-title class="text-h5">
+                <v-card>
+                  <v-card-title
+                    class="text-h5"
+                    style="background:#385F73; color:white;"
+                  >
                     DADOS DO SERVIÇO
                   </v-card-title>
 
                   <v-card-text>
+                    <br>
                     Tipo do Serviço: {{ servico.tipo }} <br>
                     Data de Agendamento: {{ servico.dataAgendamento }}<br>
                     Plano: {{ servico.plano }}<br>
@@ -62,7 +65,8 @@
                     Venda via: {{ servico.contato }}<br><br>
                     <v-divider /><br>
                     Data da Abertura do Serviço: {{ servico.dataAbertura }}<br>
-                    Data da Vencimento do Serviço: {{ servico.dataVencimento }}<br>
+                    Data do Vencimento do Serviço: {{ servico.dataVencimento }}<br>
+                    Data da Execução do Serviço: {{ servico.dataExecucao }}<br>
                     Status do Serviço: {{ servico.status }}<br>
                     Despachado para o Técnico: {{ servico.tecnico ? servico.tecnico.name : '' }}
                   </v-card-text>
@@ -70,7 +74,7 @@
               </v-col>
               <v-col>
                 <v-flex
-                  v-if="servico.status === 'AGENDADO' || servico.status === 'REAGENDADO'"
+                  v-if="mostrarDialogRemanejar(servico.status)"
                   ma-1
                 >
                   <v-dialog
@@ -130,7 +134,7 @@
                 <!-- DESPACHAR -->
 
                 <v-flex
-                  v-if="servico.status === 'DESPACHADO'"
+                  v-if="mostrarDialogRemanejar(servico.status)"
                   ma-1
                 >
                   <v-dialog
@@ -190,7 +194,7 @@
                 <!-- REMANEJAR -->
 
                 <v-flex
-                  v-if="servico.status !== 'REAGENDADO'"
+                  v-if="mostrarDialogReagendar(servico.status)"
                   ma-1
                 >
                   <v-dialog
@@ -244,7 +248,7 @@
                 <!-- REAGENDAR -->
 
                 <v-flex
-                  v-if="servico.status === 'DESPACHADO' || servico.status === 'REMANEJADO'"
+                  v-if="mostrarDialogBaixar(servico.status)"
                   ma-1
                 >
                   <v-dialog
@@ -290,7 +294,10 @@
                 </v-flex>
                 <!-- BAIXAR -->
 
-                <v-flex ma-1>
+                <v-flex
+                  v-if="mostrarDialogCancelar(servico.status)"
+                  ma-1
+                >
                   <v-dialog
                     v-model="dialogCancelar"
                     persistent
@@ -331,6 +338,7 @@
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
+                  <!-- CANCELAR -->
                 </v-flex>
               </v-col>
             </v-row>
@@ -393,10 +401,6 @@ export default {
 
   }),
 
-  computed: {
-
-  },
-
   created () {
     this.servicoEditado = this.servico
     this.listarTecnicos()
@@ -408,6 +412,61 @@ export default {
         .then((response) => {
           this.tecnicos = response
         })
+    },
+
+    mostrarDialogDespachar (status) {
+      const mostrar = ['AGENDADO', 'REAGENDADO']
+
+      mostrar.forEach((e) => {
+        if (e === status) {
+          return true
+        }
+      })
+      return false
+    },
+
+    mostrarDialogRemanejar (status) {
+      const mostrar = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
+
+      mostrar.forEach((e) => {
+        if (e === status) {
+          return true
+        }
+      })
+      return false
+    },
+
+    mostrarDialogReagendar (status) {
+      const mostrar = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
+
+      mostrar.forEach((e) => {
+        if (e === status) {
+          return true
+        }
+      })
+      return false
+    },
+
+    mostrarDialogBaixar (status) {
+      const mostrar = ['DESPACHADO', 'REMANEJADO']
+
+      mostrar.forEach((e) => {
+        if (e === status) {
+          return true
+        }
+      })
+      return false
+    },
+
+    mostrarDialogCancelar (status) {
+      const mostrar = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
+
+      mostrar.forEach((e) => {
+        if (e === status) {
+          return true
+        }
+      })
+      return false
     },
 
     despachar () {

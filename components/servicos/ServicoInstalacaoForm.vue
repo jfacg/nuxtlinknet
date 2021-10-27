@@ -87,6 +87,7 @@
 <script>
 /* eslint-disable vue/no-side-effects-in-computed-properties */
 /* eslint-disable no-console */
+import moment from 'moment'
 import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
@@ -174,6 +175,7 @@ export default {
       this.servico.cliente_id = this.cliente.id
       this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
       this.servico.status = 'AGENDADO'
+      this.servico.dataVencimento = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
       this.$emit('submit', this.servico)
     },
 

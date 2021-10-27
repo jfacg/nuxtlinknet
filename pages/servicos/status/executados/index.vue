@@ -14,43 +14,34 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <h2>Lista de Serviços</h2>
+                  <h2>Serviços Executados</h2>
                 </v-col>
                 <v-col />
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn
+                  <!-- <v-btn
                     color="primary"
                     elevation="10"
+                    to="/servicos/criar"
                     exact
                     link
+                    @click.stop="$emit('input', false)"
                   >
                     Criar Novo Serviço
                     <v-icon right>
                       add
                     </v-icon>
-                  </v-btn>
+                  </v-btn> -->
                 </v-col>
                 <v-col>
-                  <v-btn
-                    color="primary"
-                    elevation="10"
-                    x-small
-                    to="/servicos/status/executados"
-                    exact
-                    link
-                  >
-                    Listar Serviços Executados
-                  </v-btn>
-                  <v-divider />
-                  <v-text-field
+                  <!-- <v-text-field
                     v-model="search"
                     prepend-icon="search"
                     name="filter"
                     label="Localizar por Tipo"
                     type="text"
-                  />
+                  /> -->
                 </v-col>
               </v-row>
             </v-container>
@@ -73,7 +64,7 @@
                       Serviço
                     </th>
                     <th class="text-left">
-                      Agendamento
+                      Excutado
                     </th>
                     <th class="text-left">
                       Cliente
@@ -103,7 +94,7 @@
                     <td>{{ servico.id }}</td>
                     <td>{{ servico.tipo }}</td>
                     <td class="text-center">
-                      {{ formatarDataHora(servico.dataAgendamento) }}
+                      {{ formatarDataHora(servico.dataExecucao) }}
                     </td>
                     <td>{{ servico.cliente.name }}</td>
                     <td>{{ servico.cliente.street }}, {{ servico.cliente.number }}</td>
@@ -151,7 +142,7 @@ import moment from 'moment'
 import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
-  name: 'ServicosListar',
+  name: 'ServicosBaixadosListar',
 
   asyncData (context) {
     return context.$axios.$get(URI_BASE_API + API_VERSION + '/servicos')
@@ -171,6 +162,13 @@ export default {
       },
       {
         text: 'Serviços',
+        disabled: false,
+        to: '/servicos',
+        exact: true,
+        link: true
+      },
+      {
+        text: 'Serviços Executados',
         disabled: true
       }
     ],
@@ -183,11 +181,7 @@ export default {
   computed: {
     listarServicos () {
       return this.servicosAbertos.filter((servicos) => {
-        if (servicos.cliente.name.toLowerCase().match(this.search.toLowerCase())) {
-          return servicos
-        }
-        return ''
-        // return servicos.tipo.toLowerCase().match(this.search.toLowerCase())
+        return servicos.tipo.toLowerCase().match(this.search.toLowerCase())
       })
     }
   },
@@ -197,9 +191,9 @@ export default {
 
   methods: {
     servicosNaoExecutados () {
-      const servicosOrdenados = this.servicos.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
+      const servicosOrdenados = this.servicos.sort((a, b) => (new Date(a.dataExecucao) > new Date(b.dataExecucao)) ? 1 : ((new Date(a.dataExecucao) < new Date(b.dataExecucao)) ? -1 : 0))
       servicosOrdenados.forEach((servico) => {
-        if (servico.status !== 'EXECUTADO' && servico.status !== 'BAIXADO') {
+        if (servico.status === 'EXECUTADO') {
           this.servicosAbertos.push(servico)
         }
       })
