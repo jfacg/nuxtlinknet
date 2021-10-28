@@ -74,7 +74,7 @@
               </v-col>
               <v-col>
                 <v-flex
-                  v-if="mostrarDialogRemanejar(servico.status)"
+                  v-if="mostrarDialogDespachar(servico.status)"
                   ma-1
                 >
                   <v-dialog
@@ -415,58 +415,61 @@ export default {
     },
 
     mostrarDialogDespachar (status) {
-      const mostrar = ['AGENDADO', 'REAGENDADO']
-
-      mostrar.forEach((e) => {
+      const liberados = ['AGENDADO', 'REAGENDADO']
+      let mostrar = false
+      liberados.forEach((e) => {
         if (e === status) {
-          return true
+          mostrar = true
         }
       })
-      return false
+      return mostrar
     },
 
     mostrarDialogRemanejar (status) {
-      const mostrar = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
-
-      mostrar.forEach((e) => {
+      const liberados = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
+      let mostrar = false
+      liberados.forEach((e) => {
         if (e === status) {
-          return true
+          mostrar = true
         }
       })
-      return false
+      return mostrar
     },
 
     mostrarDialogReagendar (status) {
-      const mostrar = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
+      const liberados = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
 
-      mostrar.forEach((e) => {
+      let mostrar = false
+      liberados.forEach((e) => {
         if (e === status) {
-          return true
+          mostrar = true
         }
       })
-      return false
+      return mostrar
     },
 
     mostrarDialogBaixar (status) {
-      const mostrar = ['DESPACHADO', 'REMANEJADO']
+      const liberados = ['DESPACHADO', 'REMANEJADO']
 
-      mostrar.forEach((e) => {
+      let mostrar = false
+      liberados.forEach((e) => {
         if (e === status) {
-          return true
+          mostrar = true
         }
       })
-      return false
+      return mostrar
     },
 
     mostrarDialogCancelar (status) {
-      const mostrar = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
+      const liberados = ['AGENDADO', 'REAGENDADO', 'DESPACHADO', 'REMANEJADO']
 
-      mostrar.forEach((e) => {
+      let mostrar = false
+      liberados.forEach((e) => {
         if (e === status) {
-          return true
+          mostrar = true
         }
       })
-      return false
+      return mostrar
     },
 
     despachar () {
