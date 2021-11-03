@@ -6,23 +6,15 @@ const actions = {
     return context.$axios
       .$get(URI_BASE_API + API_VERSION + '/ixc/cobrancas/boletosAbertos')
       .then((data) => {
-        vuexContext.commit('servicos/inserir_servicos', data)
+        vuexContext.commit('cobrancas/inserir_cobrancas', data)
       })
   },
 
-  // async listarPlanosIxc ({ commit, dispatch }, params) {
-  //   return await axios.get(`${URN}/planos`, params)
-  //     .then(response => {
-  //       const planos = response.data
-  //       commit('SET_PLANOSIXC', planos)
-  //     })
-  // }.
-
-  async listarPlanosIxc (vuexContext, params) {
+  async criarCobranca (vuexContext, params) {
     return await new Promise((resolve, reject) => {
-      this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/planos', params)
+      this.$axios.$post(URI_BASE_API + API_VERSION + '/cobrancas', params)
         .then((response) => {
-          vuexContext.commit('inserir_planosIxc', response)
+          // vuexContext.commit('adicionar_cobranca', response.data)
           return resolve(response)
         })
         .catch((e) => {
@@ -31,13 +23,13 @@ const actions = {
     })
   },
 
-  async editarCliente (vuexContext, params) {
+  async editarProjeto (vuexContext, params) {
     return await new Promise((resolve, reject) => {
-      this.$axios.$put(URI_BASE_API + API_VERSION + '/clientes/' + params.id, params)
+      this.$axios.$put(URI_BASE_API + API_VERSION + '/projetos/' + params.id, params)
         .then((response) => {
           if (response) {
-            vuexContext.commit('editar_cliente', params)
-            return resolve()
+            vuexContext.commit('editar_projeto', params)
+            return resolve(response)
           }
         })
         .catch((e) => {
@@ -46,12 +38,42 @@ const actions = {
     })
   },
 
-  async excluirCliente (vuexContext, params) {
+  async editarProjetoCaixa (vuexContext, params) {
     return await new Promise((resolve, reject) => {
-      this.$axios.$delete(URI_BASE_API + API_VERSION + '/clientes/' + params.id)
+      this.$axios.$put(URI_BASE_API + API_VERSION + '/caixas/' + params.caixa.id, params.caixa)
         .then((response) => {
           if (response) {
-            vuexContext.commit('excluir_cliente', params)
+            vuexContext.commit('editar_projeto_caixa', params)
+            return resolve(response)
+          }
+        })
+        .catch((e) => {
+          return reject(e.response.data)
+        })
+    })
+  },
+
+  async editarProjetoCaixaPorta (vuexContext, params) {
+    return await new Promise((resolve, reject) => {
+      this.$axios.$put(URI_BASE_API + API_VERSION + '/portas/' + params.porta.id, params.porta)
+        .then((response) => {
+          if (response) {
+            vuexContext.commit('editar_projeto_caixa_porta', params)
+          }
+          return resolve(response)
+        })
+        .catch((error) => {
+          return reject(error.response.data)
+        })
+    })
+  },
+
+  async excluirProjeto (vuexContext, params) {
+    return await new Promise((resolve, reject) => {
+      this.$axios.$delete(URI_BASE_API + API_VERSION + '/projetos/' + params.id)
+        .then((response) => {
+          if (response) {
+            vuexContext.commit('excluir_projeto', params)
             return resolve()
           }
         })

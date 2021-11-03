@@ -121,7 +121,8 @@ export default {
         { title: 'Permissões', icon: 'lock', to: '/permissoes', permissao: 'admin' },
         { title: 'Clientes', icon: 'group', to: '/clientes', permissao: 'clientes' },
         { title: 'Projetos FTTH', icon: 'build', to: '/projetos', permissao: 'projetos' },
-        { title: 'Serviços', icon: 'build', to: '/servicos', permissao: 'servicos' }
+        { title: 'Serviços', icon: 'build', to: '/servicos', permissao: 'servicos' },
+        { title: 'Cobranças', icon: 'build', to: '/cobrancas', permissao: 'cobrancas' }
       ],
       miniVariant: false,
       right: true,

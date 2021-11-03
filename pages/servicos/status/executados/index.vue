@@ -191,7 +191,7 @@ export default {
 
   methods: {
     servicosNaoExecutados () {
-      const servicosOrdenados = this.servicos.sort((a, b) => (new Date(a.dataExecucao) > new Date(b.dataExecucao)) ? 1 : ((new Date(a.dataExecucao) < new Date(b.dataExecucao)) ? -1 : 0))
+      const servicosOrdenados = this.servicos.sort((a, b) => (new Date(a.dataExecucao) < new Date(b.dataExecucao)) ? 1 : ((new Date(a.dataExecucao) > new Date(b.dataExecucao)) ? -1 : 0))
       servicosOrdenados.forEach((servico) => {
         if (servico.status === 'EXECUTADO') {
           this.servicosAbertos.push(servico)

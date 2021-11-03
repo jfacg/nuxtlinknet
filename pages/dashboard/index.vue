@@ -3,8 +3,8 @@
     <v-layout>
       <v-col
         cols="12"
+        lg="4"
         md="4"
-        lg="2"
       >
         <v-card
           color="#385F73"

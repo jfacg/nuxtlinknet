@@ -2,11 +2,18 @@
 const mutations = {
   inserir_planosIxc (state, planos) {
     state.planosIxc = planos
-  }
+  },
 
-  // adicionar_cliente (state, cliente) {
-  //   state.clientes.push(cliente)
-  // },
+  inserir_boletosixc (state, boletos) {
+    state.boletosixc = boletos
+  },
+
+  adicionar_cobranca (state, cobranca) {
+    const boletoIndex = state.boletosixc.findIndex(
+      boleto => boleto.id === cobranca.boletoId
+    )
+    state.boletosixc[boletoIndex].cobrancas.push(cobranca.cobranca)
+  }
 
   // excluir_cliente (state, clienteExcluir) {
   //   const clienteIndex = state.clientes.findIndex(
