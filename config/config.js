@@ -6,9 +6,9 @@ export const URI_BASE_API = 'http://laralinknet.test:81/api/'
 
 export const PARCEIROS = [
   {
-    nome: 'Ranieri Santos Silva',
-    email: 'ranieri@linknetcg.com.br',
-    empresa: 'RANIERI',
+    nome: 'Raniere Santos Silva',
+    email: 'raniere@linknetcg.com.br',
+    empresa: 'RANIERE',
     filial: 6
   },
   {

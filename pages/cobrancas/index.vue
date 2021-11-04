@@ -298,7 +298,7 @@ export default {
         return 'ON TELECOM'
       }
       if (id === 6) {
-        return 'RANIERI'
+        return 'RANIERE'
       }
     }
   }
