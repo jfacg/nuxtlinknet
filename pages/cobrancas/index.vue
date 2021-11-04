@@ -84,15 +84,6 @@
                     <th class="text-left">
                       Status
                     </th>
-                    <!-- <th class="text-left">
-                      Técnico
-                    </th>
-                    <th
-                      class="text-left"
-                      width="150px"
-                    >
-                      Ações
-                    </th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -102,7 +93,6 @@
                     :style="corDaCobranca(boleto.cobrancas)"
                   >
                     <td>{{ boleto.id }}</td>
-                    <!-- <td>{{ boleto.client_ixc.razao }}</td> -->
                     <td>
                       <v-dialog
                         transition="dialog-bottom-transition"
@@ -148,33 +138,6 @@
                     <td>{{ boleto.valor }}</td>
                     <td>{{ filial(boleto.filial_id) }}</td>
                     <td>{{ statusCobranca(boleto.cobrancas) }}</td>
-                    <!--<td>{{ servico.tecnico ? servico.tecnico.nick_name : "" }}</td>
-                    <td width="100px">
-                      <v-btn
-                        color="orange"
-                        elevation="10"
-                        icon
-                        x-small
-                        link
-                        exact
-                        :to="{name: 'servicos-detalhes-id', params: {id: servico.id}}"
-                        @click.stop="$emit('input', false)"
-                      >
-                        <v-icon>settings</v-icon>
-                      </v-btn>
-                      <v-btn
-                        class="ml-2 mr-2"
-                        color="primary"
-                        elevation="10"
-                        icon
-                        x-small
-                        link
-                        exact
-                        :to="{name: 'servicos-id', params: {id:servico.id}}"
-                      >
-                        <v-icon>edit</v-icon>
-                      </v-btn>
-                    </td>-->
                   </tr>
                 </tbody>
               </template>
@@ -188,7 +151,7 @@
 <script>
 /* eslint-disable no-console */
 import moment from 'moment'
-import { URI_BASE_API, API_VERSION } from '@/config/config'
+import { URI_BASE_API, API_VERSION, PARCEIROS } from '@/config/config'
 import CobrancaForm from '@/components/cobrancas/CobrancaForm.vue'
 
 export default {
@@ -221,35 +184,67 @@ export default {
       }
     ],
     search: '',
-    boletos: []
+    boletos: [],
+    usuario: {
+      email: ''
+    }
 
   }),
 
   computed: {
-    listarServicos () {
-      //   return this.servicosAbertos.filter((servicos) => {
-      //     if (servicos.cliente.name.toLowerCase().match(this.search.toLowerCase())) {
-      //       return servicos
-      //     }
-      //     return ''
-      //     // return servicos.tipo.toLowerCase().match(this.search.toLowerCase())
-      //   })
-      return []
-    }
+
   },
   created () {
-    this.boletos = this.$store.getters['ixc/listar_boletosixc']
+    this.usuario = this.$store.getters['auth/usuarioAutenticado']
+    this.boletosFiltradoParceiro(this.$store.getters['ixc/listar_boletosixc'])
+    // this.boletos = this.$store.getters['ixc/listar_boletosixc']
   },
 
   methods: {
-    // servicosNaoExecutados () {
-    //   const servicosOrdenados = this.servicos.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
-    //   servicosOrdenados.forEach((servico) => {
-    //     if (servico.status !== 'EXECUTADO' && servico.status !== 'BAIXADO') {
-    //       this.servicosAbertos.push(servico)
-    //     }
-    //   })
-    // },
+    boletosFiltradoParceiro (listaBoletos) {
+      const filial = this.filialParceiro(this.usuario)
+      if (filial === 0) {
+        this.boletos = listaBoletos
+      }
+      if (filial === 4) {
+        listaBoletos.forEach((boleto) => {
+          if (boleto.filial_id === filial || boleto.filial_id === 2) {
+            this.boletos.push(boleto)
+          }
+        })
+      }
+      if (filial === 4) {
+        listaBoletos.forEach((boleto) => {
+          if (boleto.filial_id === filial || boleto.filial_id === 2) {
+            this.boletos.push(boleto)
+          }
+        })
+      }
+      if (filial === 6) {
+        listaBoletos.forEach((boleto) => {
+          if (boleto.filial_id === filial) {
+            this.boletos.push(boleto)
+          }
+        })
+      }
+      if (filial === 1) {
+        listaBoletos.forEach((boleto) => {
+          if (boleto.filial_id === filial) {
+            this.boletos.push(boleto)
+          }
+        })
+      }
+    },
+
+    filialParceiro (usuario) {
+      let filial = 0
+      PARCEIROS.forEach((parceiro) => {
+        if (usuario.email === parceiro.email) {
+          filial = parceiro.filial
+        }
+      })
+      return filial
+    },
 
     salvar (data) {
       this.$store.dispatch('cobrancas/criarCobranca', data.cobranca)
@@ -258,11 +253,8 @@ export default {
             cobranca: response.data,
             boletoId: data.boletoId
           }
-          console.log(dados)
           this.$store.commit('ixc/adicionar_cobranca', dados)
           this.$toast.success('Permissão criada')
-          // this.$router.push('/cobrancas')
-          // this.$nuxt.refresh()
         })
         .catch((errors) => {
           const messages = Object.values(errors)

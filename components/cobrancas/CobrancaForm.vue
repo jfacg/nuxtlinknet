@@ -1,18 +1,39 @@
 
 <template>
   <form>
-    <v-text-field
-      v-model="boletoEditado.client_ixc.razao"
-      name="cliene"
-      label="Cliente"
-      type="text"
-      disabled
-    />
     <v-row>
       <v-col
         cols="12"
         sm="6"
-        md="4"
+        md="6"
+      >
+        <v-text-field
+          :value="boletoEditado.client_ixc.razao"
+          name="cliente"
+          label="Cliente"
+          type="text"
+          disabled
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        md="6"
+      >
+        <v-text-field
+          :value="clienteEndereco(boletoEditado.client_ixc)"
+          name="endereco"
+          label="Endereço"
+          type="text"
+          disabled
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        cols="12"
+        sm="6"
+        md="3"
       >
         <v-text-field
           name="vencimento"
@@ -25,12 +46,25 @@
       <v-col
         cols="12"
         sm="6"
-        md="4"
+        md="3"
       >
         <v-text-field
           :value="boletoEditado.valor"
           name="valor"
           label="Valor"
+          type="text"
+          disabled
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        md="3"
+      >
+        <v-text-field
+          :value="boletoEditado.client_ixc.telefone_celular"
+          name="contato"
+          label="Contato"
           type="text"
           disabled
         />
@@ -88,6 +122,7 @@
     <v-btn
       color="primary"
       large
+      :disabled="desativar"
       @click.prevent="salvar"
     >
       Salvar
@@ -125,7 +160,13 @@ export default {
   }),
 
   computed: {
-
+    desativar () {
+      if (this.cobrancaEditada.mensagem === '') {
+        return true
+      } else {
+        return false
+      }
+    }
   },
 
   created () {
@@ -153,7 +194,12 @@ export default {
 
     formatarData (data) {
       return moment(data).format('DD-MM-YYYY')
+    },
+
+    clienteEndereco (cliente) {
+      return cliente.endereco + ', ' + cliente.numero + ' - ' + cliente.bairro
     }
+
   }
 }
 
