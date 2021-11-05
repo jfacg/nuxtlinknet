@@ -97,7 +97,9 @@ export default {
         disabled: true
       }
     ],
-    caixaEditada: {}
+    caixaEditada: {
+      status: ''
+    }
 
   }),
 
@@ -108,6 +110,7 @@ export default {
 
   methods: {
     salvar (projeto) {
+      this.caixaEditada.status = 'ATIVA'
       const projetoCaixa = { projetoId: this.projeto.id, caixa: this.caixaEditada }
       this.$store.dispatch('projetos/editarProjetoCaixa', projetoCaixa)
         .then(() => {

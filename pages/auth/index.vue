@@ -68,7 +68,7 @@ export default {
     submit () {
       this.$store.dispatch('auth/autenticar', this.usuario)
         .then(() => {
-          this.$router.push('/')
+          this.$router.push('/dashboard')
         })
     }
   }
