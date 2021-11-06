@@ -79,6 +79,9 @@
                       Valor
                     </th>
                     <th class="text-left">
+                      Agendamento
+                    </th>
+                    <th class="text-left">
                       Responsavel
                     </th>
                     <th class="text-left">
@@ -136,6 +139,7 @@
                       {{ formatarDataHora(boleto.data_vencimento) }}
                     </td>
                     <td>{{ boleto.valor }}</td>
+                    <td>{{ agendamentoCobranca(boleto.cobrancas) }}</td>
                     <td>{{ filial(boleto.filial_id) }}</td>
                     <td>{{ statusCobranca(boleto.cobrancas) }}</td>
                   </tr>
@@ -267,6 +271,14 @@ export default {
     statusCobranca (cobrancas) {
       if (cobrancas.length !== 0) {
         return cobrancas[cobrancas.length - 1].status
+      } else {
+        return ''
+      }
+    },
+
+    agendamentoCobranca (cobrancas) {
+      if (cobrancas.length !== 0) {
+        return cobrancas[cobrancas.length - 1].agendamento !== '' ? this.formatarDataHora(cobrancas[cobrancas.length - 1].agendamento) : ''
       } else {
         return ''
       }
