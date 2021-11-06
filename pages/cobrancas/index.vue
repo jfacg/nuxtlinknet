@@ -278,7 +278,8 @@ export default {
 
     agendamentoCobranca (cobrancas) {
       if (cobrancas.length !== 0) {
-        return cobrancas[cobrancas.length - 1].agendamento !== '' ? this.formatarDataHora(cobrancas[cobrancas.length - 1].agendamento) : ''
+        console.log(cobrancas[cobrancas.length - 1])
+        return cobrancas[cobrancas.length - 1].dataAgendamento !== null ? this.formatarDataHora(cobrancas[cobrancas.length - 1].dataAgendamento) : ''
       } else {
         return ''
       }
