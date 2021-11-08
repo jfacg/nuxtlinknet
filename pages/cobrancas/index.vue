@@ -11,49 +11,51 @@
           pa-4
         >
           <v-card-title>
-            <!-- <v-container>
+            <v-container>
               <v-row>
-                <v-col>
-                  <h2>Lista de Serviços</h2>
-                </v-col>
-                <v-col />
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn
-                    color="primary"
-                    elevation="10"
-                    exact
-                    link
-                  >
-                    Criar Novo Serviço
-                    <v-icon right>
-                      add
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-                <v-col>
-                  <v-btn
-                    color="primary"
-                    elevation="10"
-                    x-small
-                    to="/servicos/status/executados"
-                    exact
-                    link
-                  >
-                    Listar Serviços Executados
-                  </v-btn>
-                  <v-divider />
-                  <v-text-field
-                    v-model="search"
-                    prepend-icon="search"
-                    name="filter"
-                    label="Localizar por Tipo"
-                    type="text"
+                <v-col
+                  class="d-flex"
+                  cols="12"
+                  sm="3"
+                >
+                  <v-select
+                    v-model="filtro.parceiro"
+                    :items="parceiros"
+                    item-text="parceiro"
+                    item-value="filial"
+                    label="Parceiro"
+                    dense
+                    solo
                   />
                 </v-col>
+                <!-- <v-col
+                  class="d-flex"
+                  cols="12"
+                  sm="3"
+                >
+                  <v-select
+                    v-model="filtro.agendamento"
+                    :items="agendamentos"
+                    label="Agendamento"
+                    dense
+                    solo
+                  />
+                </v-col>
+                <v-col
+                  class="d-flex"
+                  cols="12"
+                  sm="3"
+                >
+                  <v-select
+                    v-model="filtro.status"
+                    :items="status"
+                    label="Status"
+                    dense
+                    solo
+                  />
+                </v-col> -->
               </v-row>
-            </v-container> -->
+            </v-container>
           </v-card-title>
           <v-card-subtitle>
             <v-breadcrumbs :items="items" />
@@ -91,7 +93,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="boleto in boletos"
+                    v-for="boleto in boletosFiltrados"
                     :key="boleto.id"
                     :style="corDaCobranca(boleto.cobrancas)"
                   >
@@ -183,7 +185,7 @@ export default {
         to: '/dashboard'
       },
       {
-        text: 'Serviços',
+        text: 'Cobranças',
         disabled: true
       }
     ],
@@ -191,11 +193,57 @@ export default {
     boletos: [],
     usuario: {
       email: ''
-    }
+    },
+    filtro: {
+      parceiro: '',
+      agendamento: '',
+      status: ''
+    },
+    parceiros: [
+      {
+        parceiro: 'Todos',
+        filial: 0
+      },
+      {
+        parceiro: 'On Telecom',
+        filial: 4
+      },
+      {
+        parceiro: 'Raniere',
+        filial: 6
+      },
+      {
+        parceiro: 'Linknet',
+        filial: 1
+      }
+
+    ],
+    agendamentos: [
+      'Todos',
+      'Hoje',
+      'Amanha',
+      'Semana'
+    ],
+    status: [
+      'Todos',
+      'Agendado',
+      'Tratando',
+      'Vencido'
+    ]
 
   }),
 
   computed: {
+    boletosFiltrados () {
+      // eslint-disable-next-line array-callback-return
+      return this.boletos.filter((boleto) => {
+        if (this.filtro.parceiro === 0 || this.filtro.parceiro === '') {
+          return boleto
+        } else if (this.filtro.parceiro === boleto.filial_id) {
+          return boleto
+        }
+      })
+    }
 
   },
   created () {
@@ -278,7 +326,6 @@ export default {
 
     agendamentoCobranca (cobrancas) {
       if (cobrancas.length !== 0) {
-        console.log(cobrancas[cobrancas.length - 1])
         return cobrancas[cobrancas.length - 1].dataAgendamento !== null ? this.formatarDataHora(cobrancas[cobrancas.length - 1].dataAgendamento) : ''
       } else {
         return ''
