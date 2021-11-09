@@ -545,7 +545,22 @@ export default {
     },
 
     cancelar () {
+      this.servicoEditado.status = 'CANCELADO'
+      this.servicoEditado.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      this.servicoEditado.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
 
+      this.$store.dispatch('servicos/editarServico', this.servicoEditado)
+        .then(() => {
+          this.dialogBaixar = false
+          this.$toast.success('Servico Reagendado')
+          this.$router.push('/servicos')
+        })
+        .catch((errors) => {
+          const messages = Object.values(errors)
+          messages.forEach((error) => {
+            this.$toast.error(error.toString())
+          })
+        })
     },
 
     tecnicoSelecionado (item) {

@@ -28,7 +28,7 @@
                     solo
                   />
                 </v-col>
-                <!-- <v-col
+                <v-col
                   class="d-flex"
                   cols="12"
                   sm="3"
@@ -53,7 +53,7 @@
                     dense
                     solo
                   />
-                </v-col> -->
+                </v-col>
               </v-row>
             </v-container>
           </v-card-title>
@@ -240,6 +240,20 @@ export default {
         if (this.filtro.parceiro === 0 || this.filtro.parceiro === '') {
           return boleto
         } else if (this.filtro.parceiro === boleto.filial_id) {
+          return boleto
+        }
+        // eslint-disable-next-line array-callback-return
+      }).filter((boleto) => {
+        if (this.filtro.status === '' || this.filtro.status === 'Todos') {
+          return boleto
+        } else if (boleto.cobrancas.length > 0) {
+          if (boleto.cobrancas[boleto.cobrancas.length - 1].status.toLowerCase() === this.filtro.status.toLowerCase()) {
+            return boleto
+          }
+        }
+        // eslint-disable-next-line array-callback-return
+      }).filter((boleto) => {
+        if (this.filtro.agendamento === '' || this.filtro.agendamento === 'Todos') {
           return boleto
         }
       })

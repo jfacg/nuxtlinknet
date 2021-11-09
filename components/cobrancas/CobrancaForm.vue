@@ -99,9 +99,9 @@
             :key="cobranca.id"
           >
             <td>{{ formatarData(cobranca.created_at) }}</td>
-            <td>{{ cobranca.mensagem }}</td>
-            <td>{{ cobranca.dataAgendamento ? formatarData(cobranca.dataAgendamento) : '' }}</td>
-            <td>{{ cobranca.usuario.nick_name }}</td>
+            <td>{{ cobranca.mensagem ? cobranca.mensagem : '' }}</td>
+            <td>{{ cobranca.dataAgendamento !== null ? formatarData(cobranca.dataAgendamento) : '' }}</td>
+            <td>{{ cobranca.usuario ? cobranca.usuario.nick_name : '' }}</td>
           </tr>
         </tbody>
       </template>

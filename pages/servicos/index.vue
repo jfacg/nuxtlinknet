@@ -199,7 +199,7 @@ export default {
     servicosNaoExecutados () {
       const servicosOrdenados = this.servicos.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
       servicosOrdenados.forEach((servico) => {
-        if (servico.status !== 'EXECUTADO' && servico.status !== 'BAIXADO') {
+        if (servico.status !== 'EXECUTADO' && servico.status !== 'BAIXADO' && servico.status !== 'CANCELADO') {
           this.servicosAbertos.push(servico)
         }
       })
