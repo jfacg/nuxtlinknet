@@ -54,6 +54,13 @@
                     solo
                   />
                 </v-col>
+                <v-col
+                  class="d-flex"
+                  cols="12"
+                  sm="3"
+                >
+                  <div>Total: {{ boletosFiltrados.length }}</div>
+                </v-col>
               </v-row>
             </v-container>
           </v-card-title>
@@ -232,7 +239,8 @@ export default {
       'Todos',
       'Agendado',
       'Tratando',
-      'Vencido'
+      'Vencido',
+      'Não Tratado'
     ]
 
   }),
@@ -252,6 +260,10 @@ export default {
           return boleto
         } else if (boleto.cobrancas.length > 0) {
           if (boleto.cobrancas[boleto.cobrancas.length - 1].status.toLowerCase() === this.filtro.status.toLowerCase()) {
+            return boleto
+          }
+        } else if (boleto.cobrancas.length === 0) {
+          if (this.filtro.status === 'Não Tratado') {
             return boleto
           }
         }
@@ -281,7 +293,6 @@ export default {
   created () {
     this.usuario = this.$store.getters['auth/usuarioAutenticado']
     this.boletosFiltradoParceiro(this.$store.getters['ixc/listar_boletosixc'])
-    // this.boletos = this.$store.getters['ixc/listar_boletosixc']
   },
 
   methods: {
