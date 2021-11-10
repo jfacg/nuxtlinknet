@@ -89,6 +89,9 @@
               Agendamento
             </th>
             <th class="text-left">
+              Tipo
+            </th>
+            <th class="text-left">
               Usuario
             </th>
           </tr>
@@ -101,6 +104,7 @@
             <td>{{ formatarData(cobranca.created_at) }}</td>
             <td>{{ cobranca.mensagem ? cobranca.mensagem : '' }}</td>
             <td>{{ cobranca.dataAgendamento !== null ? formatarData(cobranca.dataAgendamento) : '' }}</td>
+            <td>{{ cobranca.tipoAgendamento !== null ? cobranca.tipoAgendamento : '' }}</td>
             <td>{{ cobranca.usuario ? cobranca.usuario.nick_name : '' }}</td>
           </tr>
         </tbody>
@@ -113,12 +117,33 @@
       name="mensagem"
       label="Acordo com o cliente"
     />
-    <v-text-field
-      v-model="cobrancaEditada.dataAgendamento"
-      name="dataAgendamento"
-      label="Data do Agendamento"
-      type="date"
-    />
+    <v-row>
+      <v-col
+        class="d-flex"
+        cols="12"
+        sm="3"
+      >
+        <v-text-field
+          v-model="cobrancaEditada.dataAgendamento"
+          name="dataAgendamento"
+          label="Data do Agendamento"
+          type="date"
+        />
+      </v-col>
+      <v-col
+        class="d-flex"
+        cols="12"
+        sm="3"
+      >
+        <v-select
+          v-if="cobrancaEditada.dataAgendamento !== null"
+          v-model="cobrancaEditada.tipoAgendamento"
+          :items="tipoAgendamento"
+          label="Tipo"
+        />
+      </v-col>
+    </v-row>
+
     <v-btn
       color="primary"
       large
@@ -147,6 +172,7 @@ export default {
   data: () => ({
     cobrancaEditada: {
       dataAgendamento: null,
+      tipoAgendamento: null,
       usuario_id: '',
       boletoixc_id: '',
       status: '',
@@ -156,7 +182,15 @@ export default {
     boletoEditado: {
       id: '',
       cobrancas: []
-    }
+    },
+
+    tipoAgendamento: [
+      'COBRANCA',
+      'PAGAMENTO',
+      'RETIRADA',
+      'VISITA'
+
+    ]
   }),
 
   computed: {
@@ -189,7 +223,19 @@ export default {
       }
 
       this.$emit('submit', data)
-      this.cobrancaEditada.mensagem = ''
+      this.resetCobrancaEditata()
+    },
+
+    resetCobrancaEditata () {
+      const cobrancaEditada = {
+        dataAgendamento: null,
+        tipoAgendamento: null,
+        usuario_id: '',
+        boletoixc_id: '',
+        status: '',
+        mensagem: ''
+      }
+      this.cobrancaEditada = cobrancaEditada
     },
 
     formatarData (data) {

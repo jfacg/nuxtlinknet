@@ -84,6 +84,9 @@
                       Agendamento
                     </th>
                     <th class="text-left">
+                      Tipo
+                    </th>
+                    <th class="text-left">
                       Responsavel
                     </th>
                     <th class="text-left">
@@ -138,10 +141,11 @@
                       </v-dialog>
                     </td>
                     <td class="text-center">
-                      {{ formatarDataHora(boleto.data_vencimento) }}
+                      {{ formatarData(boleto.data_vencimento) }}
                     </td>
                     <td>{{ boleto.valor }}</td>
                     <td>{{ agendamentoCobranca(boleto.cobrancas) }}</td>
+                    <td>{{ tipoAgendamentoCobranca(boleto.cobrancas) }}</td>
                     <td>{{ filial(boleto.filial_id) }}</td>
                     <td>{{ statusCobranca(boleto.cobrancas) }}</td>
                   </tr>
@@ -255,6 +259,20 @@ export default {
       }).filter((boleto) => {
         if (this.filtro.agendamento === '' || this.filtro.agendamento === 'Todos') {
           return boleto
+        } else if (boleto.cobrancas.length > 0) {
+          const dataAgendamento = this.formatarData(boleto.cobrancas[boleto.cobrancas.length - 1].dataAgendamento)
+          const hoje = moment().format('DD-MM-YYYY')
+          const amanha = moment().add(1, 'days').format('DD-MM-YYYY')
+          const semana = moment().add(6, 'days').format('DD-MM-YYYY')
+          if (dataAgendamento === hoje && this.filtro.agendamento === 'Hoje') {
+            return boleto
+          }
+          if (dataAgendamento === amanha && this.filtro.agendamento === 'Amanha') {
+            return boleto
+          }
+          if (dataAgendamento <= semana && dataAgendamento >= hoje && this.filtro.agendamento === 'Semana') {
+            return boleto
+          }
         }
       })
     }
@@ -340,7 +358,15 @@ export default {
 
     agendamentoCobranca (cobrancas) {
       if (cobrancas.length !== 0) {
-        return cobrancas[cobrancas.length - 1].dataAgendamento !== null ? this.formatarDataHora(cobrancas[cobrancas.length - 1].dataAgendamento) : ''
+        return cobrancas[cobrancas.length - 1].dataAgendamento !== null ? this.formatarData(cobrancas[cobrancas.length - 1].dataAgendamento) : ''
+      } else {
+        return ''
+      }
+    },
+
+    tipoAgendamentoCobranca (cobrancas) {
+      if (cobrancas.length !== 0) {
+        return cobrancas[cobrancas.length - 1].tipoAgendamento !== null ? cobrancas[cobrancas.length - 1].tipoAgendamento : ''
       } else {
         return ''
       }
@@ -360,7 +386,7 @@ export default {
       }
     },
 
-    formatarDataHora (data) {
+    formatarData (data) {
       return moment(data).format('DD-MM-YYYY')
     },
 
