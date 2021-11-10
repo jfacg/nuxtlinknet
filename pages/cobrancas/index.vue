@@ -292,43 +292,22 @@ export default {
   },
   created () {
     this.usuario = this.$store.getters['auth/usuarioAutenticado']
-    this.boletosFiltradoParceiro(this.$store.getters['ixc/listar_boletosixc'])
+    this.boletos = this.$store.getters['ixc/listar_boletosixc']
+    this.boletos = this.boletosFiltradoParceiro()
   },
 
   methods: {
-    boletosFiltradoParceiro (listaBoletos) {
+    boletosFiltradoParceiro () {
       const filial = this.filialParceiro(this.usuario)
-      if (filial === 0) {
-        this.boletos = listaBoletos
-      }
-      if (filial === 4) {
-        listaBoletos.forEach((boleto) => {
-          if (boleto.filial_id === filial || boleto.filial_id === 2) {
-            this.boletos.push(boleto)
-          }
-        })
-      }
-      if (filial === 4) {
-        listaBoletos.forEach((boleto) => {
-          if (boleto.filial_id === filial || boleto.filial_id === 2) {
-            this.boletos.push(boleto)
-          }
-        })
-      }
-      if (filial === 6) {
-        listaBoletos.forEach((boleto) => {
+      if (filial !== 0) {
+        // eslint-disable-next-line array-callback-return
+        return this.boletos.filter((boleto) => {
           if (boleto.filial_id === filial) {
-            this.boletos.push(boleto)
+            return boleto
           }
         })
       }
-      if (filial === 1) {
-        listaBoletos.forEach((boleto) => {
-          if (boleto.filial_id === filial) {
-            this.boletos.push(boleto)
-          }
-        })
-      }
+      return this.boletos
     },
 
     filialParceiro (usuario) {
