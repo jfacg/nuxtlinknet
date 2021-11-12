@@ -3,7 +3,7 @@
     <v-text-field
       v-model.trim="$v.clienteEditado.name.$model"
       name="name"
-      label="Nome do clienteEditado"
+      label="Nome do Cliente"
       type="text"
       :success="!$v.clienteEditado.name.$invalid"
       :error-messages="nameErrors"
@@ -17,6 +17,13 @@
       :maxlength="11"
       :success="!$v.clienteEditado.cpf.$invalid"
       :error-messages="cpfErrors"
+    />
+    <v-text-field
+      v-model.trim="clienteEditado.rg"
+      name="rg"
+      label="Identidade"
+      type="text"
+      :maxlength="11"
     />
     <v-text-field
       v-model.trim="clienteEditado.birthday"
@@ -161,6 +168,7 @@ export default {
     clienteEditado: {
       name: '',
       cpf: '',
+      rg: '',
       birthday: '',
       cellPhone1: '',
       cellPhone2: '',

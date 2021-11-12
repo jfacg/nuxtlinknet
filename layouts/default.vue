@@ -56,7 +56,8 @@
       >
         <v-icon>exit_to_app</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="autenticado.name" />
+      <v-toolbar-title>{{ autenticado.nick_name }} </v-toolbar-title>
+
       <v-spacer />
       <v-btn
         icon
@@ -120,9 +121,9 @@ export default {
         { title: 'Função', icon: 'work', to: '/funcoes', permissao: 'admin' },
         { title: 'Permissões', icon: 'lock', to: '/permissoes', permissao: 'admin' },
         { title: 'Clientes', icon: 'group', to: '/clientes', permissao: 'clientes' },
+        { title: 'Cobranças', icon: 'payment', to: '/cobrancas', permissao: 'cobrancas' },
         { title: 'Projetos FTTH', icon: 'build', to: '/projetos', permissao: 'projetos' },
-        { title: 'Serviços', icon: 'build', to: '/servicos', permissao: 'servicos' },
-        { title: 'Cobranças', icon: 'build', to: '/cobrancas', permissao: 'cobrancas' }
+        { title: 'Serviços', icon: 'settings', to: '/servicos', permissao: 'servicos' }
       ],
       miniVariant: false,
       right: true,
@@ -143,6 +144,10 @@ export default {
       return this.autenticado = this.$store.getters['auth/usuarioAutenticado']
     }
 
+  },
+
+  created () {
+    this.autenticado = this.$store.getters['auth/usuarioAutenticado']
   },
 
   methods: {

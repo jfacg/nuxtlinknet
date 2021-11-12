@@ -4,6 +4,10 @@ const mutations = {
     state.servicos = servicos
   },
 
+  inserir_servico (state, servico) {
+    state.servico = servico
+  },
+
   adicionar_servico (state, servico) {
     state.servicos.push(servico)
   },

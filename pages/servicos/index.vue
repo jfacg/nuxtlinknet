@@ -122,7 +122,7 @@
                       >
                         <v-icon>settings</v-icon>
                       </v-btn>
-                      <!--<v-btn
+                      <v-btn
                         class="ml-2 mr-2"
                         color="primary"
                         elevation="10"
@@ -130,10 +130,10 @@
                         x-small
                         link
                         exact
-                        :to="{name: 'servicos-id', params: {id:servico.id}}"
+                        :to="{name: 'servicos-editar-instalacao-id', params: {id:servico.id}}"
                       >
                         <v-icon>edit</v-icon>
-                      </v-btn> -->
+                      </v-btn>
                     </td>
                   </tr>
                 </tbody>

@@ -57,13 +57,19 @@
                     Tipo do Serviço: {{ servico.tipo }} <br>
                     Data de Agendamento: {{ servico.dataAgendamento }}<br>
                     Plano: {{ servico.plano }}<br>
+                    Valor do Plano: {{ servico.valorPlano }}<br>
                     Data Vencimento: {{ servico.vencimento }}<br>
                     Pagamento da Instalação: {{ servico.pagamento }}<br>
                     Valor da Instalação: {{ servico.valorInstalacao }}<br>
-                    Observação: {{ servico.observacao }}<br>
                     Vendedor: {{ servico.vendedor.name }}<br>
-                    Venda via: {{ servico.contato }}<br><br>
-                    <v-divider /><br>
+                    Venda via: {{ servico.contato }}<br>
+                    <div v-if="servico.contato === 'INDICACAO' ">
+                      Cliente que indicou: {{ servico.indicacao }}<br>
+                    </div>
+                    Observação: {{ servico.observacao }}<br>
+                    <br>
+                    <v-divider />
+                    <br>
                     Data da Abertura do Serviço: {{ servico.dataAbertura }}<br>
                     Data do Vencimento do Serviço: {{ servico.dataVencimento }}<br>
                     Data da Execução do Serviço: {{ servico.dataExecucao }}<br>

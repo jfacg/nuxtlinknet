@@ -49,6 +49,12 @@
       item-value="nome"
       name="plano"
     />
+    <v-text-field
+      v-model="servico.valorPlano"
+      name="valorPlano"
+      label="Valor do Plano R$"
+      type="text"
+    />
     <v-select
       :items="vendedores"
       label="Nome do Vendedor"
@@ -68,6 +74,13 @@
       item-text="nome"
       item-value="nome"
       :return-object="false"
+    />
+    <v-text-field
+      v-if="servico.contato === 'INDICACAO'"
+      v-model="servico.indicacao"
+      name="indicacao"
+      label="Quem indicou?"
+      type="text"
     />
     <v-textarea
       v-model="servico.observacao"
@@ -119,27 +132,30 @@ export default {
       pagamento: '',
       observacao: '',
       plano: '',
+      valorPlano: '',
       status: '',
       historico: '',
       usuario_id: '',
       tecnico_id: null,
       cliente_id: '',
       vendedor_id: '',
-      contato: ''
+      contato: '',
+      indicacao: ''
     },
     contatos: [
       'WHATSAPP',
       'FACEBOOK',
       'INSTAGRAM',
       'PANFLETOS',
-      'AMIGOS'
+      'INDICACAO'
     ],
     // cliente: {},
     planos: [],
     vendedores: [],
     cliente: {
       id: ''
-    }
+    },
+    servicoEditado: {}
 
   }),
 
