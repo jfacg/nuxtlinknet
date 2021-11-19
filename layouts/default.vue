@@ -11,6 +11,7 @@
       <v-list>
         <v-list-group
           v-for="item in itemsMenu"
+          v-show="verificarPermissao(item.permissao)"
           :key="item.title"
           :prepend-icon="item.icon"
           no-action
@@ -23,6 +24,7 @@
 
           <v-list-item
             v-for="child in item.items"
+            v-show="verificarPermissao(child.permissao)"
             :key="child.title"
             dense
             :to="child.to"
@@ -98,6 +100,7 @@
         </v-list-item>
         <v-list-group
           v-for="item in itemsMenuLateral"
+          v-show="verificarPermissao(item.permissao)"
           :key="item.title"
           :prepend-icon="item.icon"
           no-action
@@ -110,6 +113,7 @@
 
           <v-list-item
             v-for="child in item.items"
+            v-show="verificarPermissao(child.permissao)"
             :key="child.title"
             dense
             :to="child.to"
@@ -241,8 +245,6 @@ export default {
         {
           title: 'Instalações',
           icon: 'dashboard',
-          to: '/dashboard',
-          // :to="{name: 'servicos-id', params: {id:servico.id}}"
           items: [
             { title: 'Gerar Boleto', to: '/servicos/instalacoes/gerarboletos', permissao: 'admin' }
           ],
