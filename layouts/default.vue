@@ -9,21 +9,31 @@
       app
     >
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          v-show="verificarPermissao(item.permissao)"
-          :key="i"
-          :to="item.to"
-          router
-          exact
+        <v-list-group
+          v-for="item in itemsMenu"
+          :key="item.title"
+          :prepend-icon="item.icon"
+          no-action
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title" />
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="child in item.items"
+            :key="child.title"
+            dense
+            :to="child.to"
+            router
+            exact
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="child.title" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
@@ -86,7 +96,43 @@
           </v-list-item-action>
           <v-list-item-title>Switch drawer (click me)</v-list-item-title>
         </v-list-item>
+        <v-list-group
+          v-for="item in itemsMenuLateral"
+          :key="item.title"
+          :prepend-icon="item.icon"
+          no-action
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title" />
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="child in item.items"
+            :key="child.title"
+            dense
+            :to="child.to"
+            router
+            exact
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="child.title" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
+
+      <!-- <v-list>
+        <v-list-item @click.native="right = !right">
+          <v-list-item-action>
+            <v-icon light>
+              mdi-repeat
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
+        </v-list-item>
+      </v-list> -->
     </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
@@ -109,21 +155,100 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
+      itemsMenu: [
+        // {
+        //   icon: 'mdi-apps',
+        //   title: 'Welcome',
+        //   to: '/',
+        //   permissao: '',
+        //   items: []
+        // },
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
+          title: 'Dashboard',
+          icon: 'dashboard',
+          to: '/dashboard',
+          items: [
+            { title: 'Dashboard', to: '/dashboard', permissao: '' }
+          ],
           permissao: ''
         },
-        { title: 'Dashboard', icon: 'dashboard', to: '/dashboard', permissao: '' },
-        { title: 'Usuários', icon: 'person', to: '/usuarios', permissao: 'admin' },
-        { title: 'Função', icon: 'work', to: '/funcoes', permissao: 'admin' },
-        { title: 'Permissões', icon: 'lock', to: '/permissoes', permissao: 'admin' },
-        { title: 'Clientes', icon: 'group', to: '/clientes', permissao: 'clientes' },
-        { title: 'Cobranças', icon: 'payment', to: '/cobrancas', permissao: 'cobrancas' },
-        { title: 'Projetos FTTH', icon: 'build', to: '/projetos', permissao: 'projetos' },
-        { title: 'Serviços', icon: 'settings', to: '/servicos', permissao: 'servicos' }
+        {
+          title: 'Usuários',
+          icon: 'person',
+          to: '/usuarios',
+          items: [
+            { title: 'Listrar Usuários', to: '/usuarios', permissao: 'admin' }
+          ],
+          permissao: 'admin'
+        },
+        {
+          title: 'Função',
+          icon: 'work',
+          to: '/funcoes',
+          items: [
+            { title: 'Listrar Funções', to: '/funcoes', permissao: 'admin' }
+          ],
+          permissao: 'admin'
+        },
+        {
+          title: 'Permissões',
+          icon: 'lock',
+          to: '/permissoes',
+          items: [
+            { title: 'Listrar Permisões', to: '/permissoes', permissao: 'admin' }
+
+          ],
+          permissao: 'admin'
+        },
+        {
+          title: 'Clientes',
+          icon: 'group',
+          to: '/clientes',
+          items: [
+            { title: 'Listrar Clientes', to: '/clientes', permissao: 'clientes' }
+          ],
+          permissao: 'clientes'
+        },
+        {
+          title: 'Cobranças',
+          icon: 'payment',
+          to: '/cobrancas',
+          items: [
+            { title: 'Listrar Cobranças', to: '/cobrancas', permissao: 'cobrancas' }
+          ],
+          permissao: 'cobrancas'
+        },
+        {
+          title: 'Projetos FTTH',
+          icon: 'build',
+          permissao: 'projetos',
+          items: [
+            { title: 'Listrar Projetos', to: '/projetos', permissao: 'projetos' },
+            { title: 'Listrar Caixas', to: '/caixas', permissao: 'projetos' }
+          ]
+        },
+        {
+          title: 'Serviços',
+          icon: 'settings',
+          to: '/servicos',
+          items: [
+            { title: 'Listrar Serviços', to: '/servicos', permissao: 'servicos' }
+          ],
+          permissao: 'servicos'
+        }
+      ],
+      itemsMenuLateral: [
+        {
+          title: 'Instalações',
+          icon: 'dashboard',
+          to: '/dashboard',
+          // :to="{name: 'servicos-id', params: {id:servico.id}}"
+          items: [
+            { title: 'Gerar Boleto', to: '/servicos/instalacoes/gerarboletos', permissao: 'admin' }
+          ],
+          permissao: 'admin'
+        }
+
       ],
       miniVariant: false,
       right: true,

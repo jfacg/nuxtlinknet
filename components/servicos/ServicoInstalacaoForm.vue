@@ -55,6 +55,12 @@
       label="Valor do Plano R$"
       type="text"
     />
+    <v-checkbox
+      v-model="servico.boletodigital"
+      label="Boleto Digital"
+      false-value="N"
+      true-value="S"
+    />
     <v-select
       :items="vendedores"
       label="Nome do Vendedor"
@@ -140,7 +146,8 @@ export default {
       cliente_id: '',
       vendedor_id: '',
       contato: '',
-      indicacao: ''
+      indicacao: '',
+      boletodigital: 'N'
     },
     contatos: [
       'WHATSAPP',

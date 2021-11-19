@@ -9,29 +9,14 @@
           shaped
           pa-4
         >
-          <v-card-title>
-            <v-container>
-              <v-row>
-                <v-col>
-                  <h2>Portas da Caixa: {{ box.name }}</h2>
-                </v-col>
-                <v-col>
-                  <v-text-field
-                    v-model="search"
-                    prepend-icon="search"
-                    name="filter"
-                    label="Search"
-                    type="text"
-                  />
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-title>
           <v-card-subtitle>
             <v-breadcrumbs :items="items" />
           </v-card-subtitle>
           <v-card-text>
-            <v-simple-table height="300px">
+            <v-simple-table
+              height="300px"
+              fixed-header
+            >
               <template #default>
                 <thead>
                   <tr>
@@ -57,14 +42,14 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="port in box.ports"
-                    :key="port.id"
+                    v-for="porta in portas"
+                    :key="porta.id"
                   >
-                    <td>{{ port.name }}</td>
-                    <td>{{ port.cableCode }}</td>
+                    <td>{{ porta.name }}</td>
+                    <td>{{ porta.cableCode }}</td>
                     <td>
                       <v-dialog
-                        v-if="port.client_ixc !== null"
+                        v-if="porta.client_ixc !== null"
                         transition="dialog-bottom-transition"
                         max-width="600"
                       >
@@ -73,7 +58,7 @@
                             v-bind="attrs"
                             v-on="on"
                           >
-                            {{ (port.client_ixc !== null) ? port.client_ixc.razao : '' }}
+                            {{ (porta.client_ixc !== null) ? porta.client_ixc.razao : '' }}
                           </div>
                         </template>
                         <template #default="dialog">
@@ -85,11 +70,11 @@
                               Dados do Cliente IXC
                             </v-toolbar>
                             <v-card-text>
-                              <div v-if="port.client_ixc !== null">
+                              <div v-if="porta.client_ixc !== null">
                                 <br>
-                                Nome: {{ port.client_ixc.razao }} <br>
-                                Endereço: {{ port.client_ixc.endereco }} - {{ port.client_ixc.numero }} <br>
-                                Bairro: {{ port.client_ixc.bairro }} - Cep: {{ port.client_ixc.cep }}<br>
+                                Nome: {{ porta.client_ixc.razao }} <br>
+                                Endereço: {{ porta.client_ixc.endereco }} - {{ porta.client_ixc.numero }} <br>
+                                Bairro: {{ porta.client_ixc.bairro }} - Cep: {{ porta.client_ixc.cep }}<br>
                               </div>
                             </v-card-text>
                             <v-card-actions class="justify-end">
@@ -104,8 +89,8 @@
                         </template>
                       </v-dialog>
                     </td>
-                    <td>{{ port.partner }}</td>
-                    <td>{{ port.status }}</td>
+                    <td>{{ porta.partner }}</td>
+                    <td>{{ porta.status }}</td>
 
                     <td>
                       <v-btn
@@ -116,7 +101,7 @@
                         x-small
                         link
                         exact
-                        :to="{name: 'portCreateUpdate', params: {type: 'update', id:port.id}}"
+                        :to="{name: 'portas-editar-id', params: {id: porta.id}}"
                       >
                         <v-icon>edit</v-icon>
                       </v-btn>
@@ -132,10 +117,20 @@
   </v-container>
 </template>
 <script>
+/* eslint-disable nuxt/no-this-in-fetch-data */
+import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
-  name: 'ProjectBoxPortList',
-  components: {},
+  name: 'CaixaListarPortas',
+
+  asyncData (context) {
+    return context.$axios.$get(URI_BASE_API + API_VERSION + '/caixas/' + context.params.id)
+      .then((response) => {
+        return {
+          caixa: response.data
+        }
+      })
+  },
 
   data: () => ({
     items: [
@@ -145,16 +140,16 @@ export default {
         to: '/dashboard'
       },
       {
-        text: 'Projetos',
+        text: 'Caixas',
         disabled: false,
-        to: { name: 'projects' },
+        to: '/caixas',
         exact: true,
         link: true
       },
       {
-        text: 'Caixas',
+        text: 'Caixa',
         disabled: false,
-        to: { name: 'projectBoxes', params: {} },
+
         exact: true,
         link: true
       },
@@ -164,9 +159,13 @@ export default {
       }
     ],
     search: '',
-    newBox: {}
+    portas: []
 
-  })
+  }),
+
+  created () {
+    this.portas = this.caixa.ports
+  }
 
 }
 </script>
