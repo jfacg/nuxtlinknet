@@ -75,17 +75,43 @@
                     <td>{{ servico.boletodigital === 'S' ? "SIM" : "NÃO" }}</td>
                     <td>{{ servico.status }}</td>
                     <td width="100px">
-                      <v-btn
-                        color="orange"
-                        elevation="10"
-                        icon
-                        x-small
-                        link
-                        exact
-                        @click.stop="baixar(servico)"
-                      >
-                        <v-icon>settings</v-icon>
-                      </v-btn>
+                      <v-tooltip bottom>
+                        <template #activator="{ on, attrs }">
+                          <v-btn
+                            v-bind="attrs"
+                            color="primary"
+                            elevation="10"
+                            icon
+                            x-small
+                            link
+                            exact
+                            v-on="on"
+                            @click.stop="baixar(servico)"
+                          >
+                            <v-icon>settings</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Boleto Gerado</span>
+                      </v-tooltip>
+                      <v-tooltip bottom>
+                        <template #activator="{ on, attrs }">
+                          <v-btn
+                            v-bind="attrs"
+                            color="orange"
+                            elevation="10"
+                            icon
+                            x-small
+                            link
+                            exact
+                            :to="{name: 'servicos-detalhes-id', params: {id: servico.id}}"
+                            v-on="on"
+                            @click.stop="$emit('input', false)"
+                          >
+                            <v-icon>visibility</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Detalhes</span>
+                      </v-tooltip>
                     </td>
                   </tr>
                 </tbody>
