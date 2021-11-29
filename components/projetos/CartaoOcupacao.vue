@@ -69,6 +69,12 @@
                             class="text-center"
                             width="110"
                           >
+                            Portas
+                          </th>
+                          <th
+                            class="text-center"
+                            width="110"
+                          >
                             P. Ativas
                           </th>
                           <th
@@ -126,6 +132,9 @@
                                 </v-card-subtitle>
                               </v-card>
                             </v-dialog>
+                          </td>
+                          <td class="text-center">
+                            {{ caixa.portas }}
                           </td>
                           <td class="text-center">
                             {{ caixa.portaAtiva }}
