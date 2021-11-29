@@ -95,16 +95,9 @@ export default {
         to: '/dashboard'
       },
       {
-        text: 'Projetos',
+        text: 'Caixas',
         disabled: false,
-        to: '/projects',
-        exact: true,
-        link: true
-      },
-      {
-        text: 'Projeto',
-        disabled: false,
-        to: '',
+        to: '/caixas',
         exact: true,
         link: true
       },
@@ -121,7 +114,9 @@ export default {
       }
 
     ],
-    caixa: {},
+    caixa: {
+
+    },
     porta: {
       status: '',
       clientIxc_id: ''
@@ -138,6 +133,7 @@ export default {
 
   created () {
     this.porta = this.retornoPorta
+    this.itemsBreadcrumbs[2].to = '/caixas/' + this.retornoPorta.box.id + '/portas'
   },
 
   methods: {
@@ -151,11 +147,10 @@ export default {
 
     salvar () {
       this.porta.status = 'ATIVA'
-      console.log(this.porta)
       this.$store.dispatch('portas/editarPorta', this.porta)
         .then((response) => {
           this.$toast.success('Porta atualizado')
-          this.$router.push('/caixas')
+          this.$router.push('/caixas/' + this.retornoPorta.box.id + '/portas')
         })
         .catch((errors) => {
           const messages = Object.values(errors)

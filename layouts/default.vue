@@ -249,6 +249,15 @@ export default {
             { title: 'Gerar Boleto', to: '/servicos/instalacoes/gerarboletos', permissao: 'admin' }
           ],
           permissao: 'admin'
+        },
+        {
+          title: 'Projetos FTTH',
+          icon: 'build',
+          permissao: 'admin',
+          items: [
+            { title: 'Ocupação', to: '/projetos/ocupacao', permissao: 'admin' }
+            // { title: 'Listrar Caixas', to: '/caixas', permissao: 'admin' }
+          ]
         }
 
       ],

@@ -27,9 +27,7 @@ const actions = {
     return await new Promise((resolve, reject) => {
       this.$axios.$put(URI_BASE_API + API_VERSION + '/portas/' + params.id, params)
         .then((response) => {
-          if (response.data) {
-            return resolve()
-          }
+          return resolve(response)
         })
         .catch((e) => {
           return reject(e.response.data)
