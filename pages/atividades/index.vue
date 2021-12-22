@@ -182,10 +182,10 @@ export default {
     },
 
     selecionarServico (servico) {
-      this.servicoSelecionado = servico
       const cpf = this.formatarCpf(servico.cliente.cpf)
       this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/buscarPorCpf/' + cpf)
         .then((response) => {
+          this.servicoSelecionado = servico
           this.servicoSelecionado.ixc = response.data
         })
     },
