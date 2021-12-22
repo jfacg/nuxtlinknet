@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import usuarios from '@/store/usuarios/actions'
+// import usuarios from '@/store/usuarios/actions'
 import funcoes from '@/store/funcoes/actions'
 import permissoes from '@/store/permissoes/actions'
 import clientes from '@/store/clientes/actions'
@@ -22,7 +22,7 @@ export const actions = {
       servicos.nuxtServerInit(vuexContext, context),
       projetos.nuxtServerInit(vuexContext, context),
       clientes.nuxtServerInit(vuexContext, context),
-      usuarios.nuxtServerInit(vuexContext, context),
+      // usuarios.nuxtServerInit(vuexContext, context),
       funcoes.nuxtServerInit(vuexContext, context),
       permissoes.nuxtServerInit(vuexContext, context)
     ])

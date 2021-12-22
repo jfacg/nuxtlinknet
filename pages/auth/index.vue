@@ -68,7 +68,14 @@ export default {
     submit () {
       this.$store.dispatch('auth/autenticar', this.usuario)
         .then(() => {
-          this.$router.push('/dashboard')
+          const usuario = this.autenticado = this.$store.getters['auth/usuarioAutenticado']
+          // eslint-disable-next-line no-console
+          console.log(usuario)
+          if (usuario.roles[0].name === 'Tecnico') {
+            this.$router.push('/atividades')
+          } else {
+            this.$router.push('/dashboard')
+          }
         })
     }
   }

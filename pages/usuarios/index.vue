@@ -32,7 +32,10 @@
             <v-breadcrumbs :items="items" />
           </v-card-subtitle>
           <v-card-text>
-            <v-simple-table height="300px">
+            <v-simple-table
+              height="300px"
+              dense
+            >
               <template #default>
                 <thead>
                   <tr>
@@ -44,6 +47,9 @@
                     </th>
                     <th class="text-left">
                       Email
+                    </th>
+                    <th class="text-left">
+                      Empresa
                     </th>
                     <th class="text-left">
                       Função
@@ -61,6 +67,7 @@
                     <td>{{ usuario.name }}</td>
                     <td>{{ usuario.nick_name }}</td>
                     <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.empresa ? usuario.empresa.nome : '' }}</td>
                     <td>
                       <div
                         v-for="role in usuario.roles"
@@ -69,10 +76,9 @@
                         {{ role.name }}
                       </div>
                     </td>
-                    <td>
+                    <td width="100px">
                       <v-btn
                         color="orange"
-                        elevation="10"
                         icon
                         x-small
                         link
@@ -84,7 +90,6 @@
                       </v-btn>
                       <v-btn
                         color="primary"
-                        elevation="10"
                         icon
                         x-small
                         link
@@ -105,10 +110,20 @@
   </v-container>
 </template>
 <script>
-// import { mapActions, mapState } from 'vuex'
+import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
   name: 'UsuarioIndex',
+
+  asyncData (context) {
+    return context.$axios.$get(URI_BASE_API + API_VERSION + '/usuarios')
+      .then((response) => {
+        context.store.commit('usuarios/set_usuarios', response)
+        return {
+          consultaUsuario: response
+        }
+      })
+  },
 
   data: () => ({
     items: [

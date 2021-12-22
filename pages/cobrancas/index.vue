@@ -5,7 +5,6 @@
       <v-flex>
         <v-card
           elevation="24"
-          loading
           outlined
           shaped
           pa-4
@@ -20,10 +19,11 @@
                 >
                   <v-select
                     v-model="filtro.parceiro"
-                    :items="parceiros"
-                    item-text="parceiro"
-                    item-value="filial"
+                    :items="empresas"
+                    item-text="nome"
+                    item-value="filialixc"
                     label="Parceiro"
+                    return-object="false"
                     dense
                     solo
                   />
@@ -168,11 +168,11 @@
 <script>
 /* eslint-disable no-console */
 import moment from 'moment'
-import { URI_BASE_API, API_VERSION, PARCEIROS } from '@/config/config'
+import { URI_BASE_API, API_VERSION } from '@/config/config'
 import CobrancaForm from '@/components/cobrancas/CobrancaForm.vue'
 
 export default {
-  name: 'ServicosListar',
+  name: 'CobrancaListar',
 
   components: {
     CobrancaForm
@@ -181,7 +181,7 @@ export default {
   asyncData (context) {
     return context.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cobrancas/boletosAbertos')
       .then((response) => {
-        context.store.commit('ixc/inserir_boletosixc', response)
+        // context.store.commit('ixc/inserir_boletosixc', response)
         return {
           boletosAbertos: response
         }
@@ -200,35 +200,23 @@ export default {
         disabled: true
       }
     ],
-    search: '',
     boletos: [],
     usuario: {
+      empresa: {
+        filialixc: ''
+      },
+      roles: [
+
+      ],
       email: ''
+
     },
     filtro: {
       parceiro: '',
       agendamento: '',
       status: ''
     },
-    parceiros: [
-      {
-        parceiro: 'Todos',
-        filial: 0
-      },
-      {
-        parceiro: 'On Telecom',
-        filial: 4
-      },
-      {
-        parceiro: 'Raniere',
-        filial: 6
-      },
-      {
-        parceiro: 'Linknet',
-        filial: 1
-      }
-
-    ],
+    empresas: [],
     agendamentos: [
       'Todos',
       'Hoje',
@@ -249,9 +237,9 @@ export default {
     boletosFiltrados () {
       // eslint-disable-next-line array-callback-return
       return this.boletos.filter((boleto) => {
-        if (this.filtro.parceiro === 0 || this.filtro.parceiro === '') {
+        if (this.filtro.parceiro.filialixc === 0 || this.filtro.parceiro === '') {
           return boleto
-        } else if (this.filtro.parceiro === boleto.filial_id) {
+        } else if (Number(this.filtro.parceiro.filialixc) === boleto.filial_id) {
           return boleto
         }
         // eslint-disable-next-line array-callback-return
@@ -292,32 +280,33 @@ export default {
   },
   created () {
     this.usuario = this.$store.getters['auth/usuarioAutenticado']
-    this.boletos = this.$store.getters['ixc/listar_boletosixc']
+    this.listarEmpresas()
+    this.boletos = this.boletosAbertos
     this.boletos = this.boletosFiltradoParceiro()
   },
 
   methods: {
     boletosFiltradoParceiro () {
-      const filial = this.filialParceiro(this.usuario)
-      if (filial !== 0) {
-        // eslint-disable-next-line array-callback-return
+      if (this.usuario.roles[0].name === 'Administrador' || this.usuario.roles[0].name === 'Supervisor') {
+        return this.boletos
+      } else {
         return this.boletos.filter((boleto) => {
-          if (boleto.filial_id === filial) {
-            return boleto
-          }
+          return Number(boleto.filial_id) === Number(this.usuario.empresa.filialixc)
         })
       }
-      return this.boletos
     },
 
-    filialParceiro (usuario) {
-      let filial = 0
-      PARCEIROS.forEach((parceiro) => {
-        if (usuario.email === parceiro.email) {
-          filial = parceiro.filial
-        }
-      })
-      return filial
+    listarEmpresas () {
+      this.$axios.$get(URI_BASE_API + API_VERSION + '/empresas')
+        .then((response) => {
+          this.empresas = response.data
+          const empresa = { nome: 'TODOS', filialixc: 0 }
+          this.empresas.push(empresa)
+        })
+    },
+
+    listarParceiros () {
+
     },
 
     salvar (data) {

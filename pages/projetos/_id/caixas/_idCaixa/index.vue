@@ -22,14 +22,14 @@
               <v-flex>
                 <form>
                   <v-text-field
-                    v-model.trim="caixaEditada.name"
+                    v-model="caixaEditada.name"
                     name="name"
                     label="Nome do Projeto"
                     type="text"
                     disabled
                   />
                   <v-text-field
-                    v-model.trim="caixaEditada.address"
+                    v-model="caixaEditada.address"
                     name="address"
                     label="Endereço"
                     type="text"

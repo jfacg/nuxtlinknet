@@ -36,7 +36,16 @@
       item-text="name"
       item-value="id"
       label="Função"
-      prepend-icon="contact_page"
+      prepend-icon="perm_identity"
+    />
+    <v-select
+      v-if="update"
+      v-model="editarUsuario.empresa_id"
+      :items="empresas"
+      item-text="nome"
+      item-value="id"
+      label="Empresa"
+      prepend-icon="store"
     />
 
     <v-btn
@@ -52,6 +61,8 @@
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import { validationMixin } from 'vuelidate'
+import { URI_BASE_API, API_VERSION } from '@/config/config'
+
 export default {
   name: 'UsuarioForm',
 
@@ -74,9 +85,11 @@ export default {
       name: '',
       email: '',
       password: '',
+      empresa_id: '',
       roles: []
     },
     roles: [],
+    empresas: [],
     show1: false
   }),
 
@@ -124,6 +137,10 @@ export default {
     }
   },
 
+  created () {
+    this.buscarEmpresas()
+  },
+
   mounted () {
     this.editarUsuario = this.usuario ? { ...this.usuario } : { name: '', email: '', password: '' }
   },
@@ -148,7 +165,15 @@ export default {
   methods: {
     salvar () {
       this.$emit('submit', this.editarUsuario)
+    },
+
+    buscarEmpresas () {
+      this.$axios.get(URI_BASE_API + API_VERSION + '/empresas')
+        .then((response) => {
+          this.empresas = response.data.data
+        })
     }
+
   }
 }
 </script>

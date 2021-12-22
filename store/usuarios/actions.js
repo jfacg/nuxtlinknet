@@ -2,13 +2,13 @@
 import { Promise } from 'core-js'
 import { URI_BASE_API, API_VERSION } from '@/config/config'
 const actions = {
-  nuxtServerInit (vuexContext, context) {
-    return context.$axios
-      .$get(URI_BASE_API + API_VERSION + '/usuarios')
-      .then((data) => {
-        vuexContext.commit('usuarios/set_usuarios', data)
-      })
-  },
+  // nuxtServerInit (vuexContext, context) {
+  //   return context.$axios
+  //     .$get(URI_BASE_API + API_VERSION + '/usuarios')
+  //     .then((data) => {
+  //       vuexContext.commit('usuarios/set_usuarios', data)
+  //     })
+  // },
 
   async criarUsuario (vuexContext, params) {
     return await new Promise((resolve, reject) => {

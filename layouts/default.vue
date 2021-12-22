@@ -68,7 +68,7 @@
       >
         <v-icon>exit_to_app</v-icon>
       </v-btn>
-      <v-toolbar-title>{{ autenticado.nick_name }} </v-toolbar-title>
+      <v-toolbar-title>{{ autenticado.nick_name }} - {{ autenticado.empresa ? autenticado.empresa.nome : '' }} </v-toolbar-title>
 
       <v-spacer />
       <v-btn
@@ -177,6 +177,25 @@ export default {
           permissao: ''
         },
         {
+          title: 'Atividades',
+          icon: 'dashboard',
+          to: '/atividades',
+          items: [
+            { title: 'Listar Atividades', to: '/atividades', permissao: '' }
+          ],
+          permissao: ''
+        },
+        {
+          title: 'Empresas',
+          icon: 'store',
+          to: '/empresas',
+          items: [
+            { title: 'Listrar Empresas', to: '/empresas', permissao: 'admin' },
+            { title: 'Criar Empresa', to: '/empresas/criar', permissao: 'admin' }
+          ],
+          permissao: 'admin'
+        },
+        {
           title: 'Usuários',
           icon: 'person',
           to: '/usuarios',
@@ -282,7 +301,7 @@ export default {
 
   },
 
-  created () {
+  mounted () {
     this.autenticado = this.$store.getters['auth/usuarioAutenticado']
   },
 
