@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "nuxt": "^2.15.7",
     "nuxt-material-design-icons": "^1.0.4",
+    "vue-excel-xlsx": "^1.0.11",
     "vue-toastification": "^1.7.11",
     "vue-viacep": "^1.0.4",
     "vuelidate": "^0.7.6",

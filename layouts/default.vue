@@ -255,7 +255,8 @@ export default {
           icon: 'settings',
           to: '/servicos',
           items: [
-            { title: 'Listrar Serviços', to: '/servicos', permissao: 'servicos' }
+            { title: 'Listrar Serviços', to: '/servicos', permissao: 'servicos' },
+            { title: 'Serviços Executados', to: '/servicos/status/executados', permissao: 'servicos' }
           ],
           permissao: 'servicos'
         }

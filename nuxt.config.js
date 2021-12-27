@@ -34,7 +34,8 @@ export default {
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~/plugins/vue-viacep.js', ssr: false },
     { src: '~/plugins/vuetify-mask.js', ssr: false },
-    { src: '~/plugins/moment.js', ssr: false }
+    { src: '~/plugins/moment.js', ssr: false },
+    { src: '~/plugins/vueExcel.js', ssr: false }
     // { src: '~/plugins/mixins/mixins.js', ssr: false }
 
   ],

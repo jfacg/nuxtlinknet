@@ -33,7 +33,7 @@
                   </v-btn>
                 </v-col>
                 <v-col>
-                  <v-btn
+                  <!-- <v-btn
                     color="primary"
                     elevation="10"
                     x-small
@@ -43,7 +43,7 @@
                   >
                     Listar Serviços Executados
                   </v-btn>
-                  <v-divider />
+                  <v-divider /> -->
                   <v-text-field
                     v-model="search"
                     prepend-icon="search"

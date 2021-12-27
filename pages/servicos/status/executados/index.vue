@@ -35,6 +35,12 @@
                   </v-btn> -->
                 </v-col>
                 <v-col>
+                  <vue-excel-xlsx
+                    :data="servicosExcel"
+                    :columns="columns"
+                  >
+                    Download
+                  </vue-excel-xlsx>
                   <!-- <v-text-field
                     v-model="search"
                     prepend-icon="search"
@@ -174,7 +180,59 @@ export default {
     ],
     search: '',
     servicosAbertos: [],
-    servicosOrdenados: []
+    servicosOrdenados: [],
+    columns: [
+      {
+        label: 'Id',
+        field: 'id'
+      },
+      {
+        label: 'Serviço',
+        field: 'tipo'
+      },
+      {
+        label: 'Cliente',
+        field: 'clienteNome'
+      },
+      {
+        label: 'Cliente Endereço',
+        field: 'clienteEndereco'
+      },
+      {
+        label: 'Data Execução',
+        field: 'dataExecucao'
+      },
+      {
+        label: 'Boleto Digital',
+        field: 'boletodigital'
+      },
+      {
+        label: 'Contato Linknet',
+        field: 'contato'
+      },
+      {
+        label: 'Indicação',
+        field: 'indicacao'
+      },
+      {
+        label: 'Plano',
+        field: 'plano'
+      },
+      {
+        label: 'Valor Instalação',
+        field: 'valorInstalacao'
+      },
+      {
+        label: 'Pagamento Instalação',
+        field: 'pagamento'
+      },
+      {
+        label: 'Vendedor',
+        field: 'vendedorNome'
+      }
+
+    ],
+    servicosExcel: []
 
   }),
 
@@ -190,11 +248,22 @@ export default {
   },
 
   methods: {
+    priceFormat (value) {
+      return '$ ' + value
+    },
+
     servicosNaoExecutados () {
       const servicosOrdenados = this.servicos.sort((a, b) => (new Date(a.dataExecucao) < new Date(b.dataExecucao)) ? 1 : ((new Date(a.dataExecucao) > new Date(b.dataExecucao)) ? -1 : 0))
       servicosOrdenados.forEach((servico) => {
         if (servico.status === 'EXECUTADO') {
           this.servicosAbertos.push(servico)
+          const servicoExcel = { ...servico }
+          const cliente = { ...servico.cliente }
+          const vendedor = { ...servico.vendedor }
+          servicoExcel.clienteNome = cliente.name
+          servicoExcel.clienteEndereco = cliente.street + ', ' + cliente.number
+          servicoExcel.vendodorNome = vendedor.name
+          this.servicosExcel.push(servicoExcel)
         }
       })
     },
