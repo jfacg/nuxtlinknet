@@ -254,11 +254,21 @@ export default {
           title: 'Serviços',
           icon: 'settings',
           to: '/servicos',
+          permissao: 'servicos',
           items: [
             { title: 'Listrar Serviços', to: '/servicos', permissao: 'servicos' },
             { title: 'Serviços Executados', to: '/servicos/status/executados', permissao: 'servicos' }
-          ],
-          permissao: 'servicos'
+          ]
+        },
+        {
+          title: 'TV',
+          icon: 'live_tv',
+          to: '/watches',
+          permissao: 'watch',
+          items: [
+            { title: 'Listrar Contas', to: '/watches', permissao: 'watch' }
+            // { title: 'Serviços Executados', to: '/servicos/status/executados', permissao: 'servicos' }
+          ]
         }
       ],
       itemsMenuLateral: [
@@ -276,7 +286,14 @@ export default {
           permissao: 'admin',
           items: [
             { title: 'Ocupação', to: '/projetos/ocupacao', permissao: 'admin' }
-            // { title: 'Listrar Caixas', to: '/caixas', permissao: 'admin' }
+          ]
+        },
+        {
+          title: 'Watch',
+          icon: 'live_tv',
+          permissao: 'admin',
+          items: [
+            { title: 'Gerenciar', to: '/watches/gerencia', permissao: 'admin' }
           ]
         }
 
