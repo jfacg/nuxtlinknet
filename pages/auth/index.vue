@@ -51,6 +51,7 @@
   </v-container>
 </template>
 <script>
+import { URI_BASE_API, TOKEN_NAME, API_VERSION } from '@/config/config'
 import { } from 'vuex'
 export default {
   name: 'Auth',
@@ -64,17 +65,66 @@ export default {
       }
     }
   },
+
+  created () {
+
+  },
+
   methods: {
     submit () {
-      this.$store.dispatch('auth/autenticar', this.usuario)
-        .then(() => {
-          const usuario = this.autenticado = this.$store.getters['auth/usuarioAutenticado']
-          // eslint-disable-next-line no-console
-          if (usuario.roles[0].name === 'Tecnico') {
-            this.$router.push('/atividades')
-          } else {
-            this.$router.push('/dashboard')
-          }
+      // this.$store.dispatch('auth/autenticar', this.usuario)
+      //   .then((response) => {
+      //     const usuario = this.$store.getters['auth/usuarioAutenticado']
+      //     // eslint-disable-next-line no-console
+      //     console.log(response)
+      //     if (usuario.roles[0].name === 'Tecnico') {
+      //       this.$router.push('/atividades')
+      //     } else {
+      //       this.$router.push('/dashboard')
+      //     }
+      //   })
+
+      this.$axios.post(URI_BASE_API + 'sanctum/token', this.usuario)
+        .then((response) => {
+          const token = response.data.token
+          localStorage.setItem(TOKEN_NAME, token)
+          this.$storage.setUniversal(TOKEN_NAME, token)
+          this.$store.commit('auth/set_token', token)
+          this.$store.commit('auth/set_autenticado', true)
+          this.$store.dispatch('auth/autenticado', token)
+
+          this.$axios.get(URI_BASE_API + 'auth/me', {
+            headers: {
+              common: {
+                Authorization: 'Bearer ' + token
+              }
+            }
+          })
+            .then((response) => {
+              const usuarioAutenticado = response.data
+              const funcao = usuarioAutenticado.roles[0]
+              this.$store.commit('auth/set_usuario', usuarioAutenticado)
+              this.$store.commit('auth/set_token', token)
+              this.$store.commit('auth/set_autenticado', true)
+
+              if (usuarioAutenticado.roles[0].name === 'Tecnico') {
+                this.$router.push('/atividades')
+              } else {
+                this.$router.push('/')
+              }
+
+              this.$axios.$get(URI_BASE_API + API_VERSION + '/funcoes/' + funcao.id + '/permissoes')
+                .then((response) => {
+                  const permissoes = response.data
+                  this.$store.commit('permissoes/set_permissoes', permissoes)
+                })
+            })
+        })
+        .catch((errors) => {
+          const messages = Object.values(errors)
+          messages.forEach((error) => {
+            this.$toast.error(error.toString())
+          })
         })
     }
   }

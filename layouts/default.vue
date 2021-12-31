@@ -172,18 +172,18 @@ export default {
           icon: 'dashboard',
           to: '/dashboard',
           items: [
-            { title: 'Dashboard', to: '/dashboard', permissao: '' }
+            { title: 'Dashboard', to: '/dashboard', permissao: 'dashboard' }
           ],
-          permissao: ''
+          permissao: 'dashboard'
         },
         {
           title: 'Atividades',
           icon: 'dashboard',
           to: '/atividades',
           items: [
-            { title: 'Listar Atividades', to: '/atividades', permissao: '' }
+            { title: 'Listar Atividades', to: '/atividades', permissao: 'atividades' }
           ],
-          permissao: ''
+          permissao: 'atividades'
         },
         {
           title: 'Empresas',

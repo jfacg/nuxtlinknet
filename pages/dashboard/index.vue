@@ -1,7 +1,7 @@
 
 <template>
   <v-container>
-    <v-layout>
+    <v-layout v-if="mostrar()">
       <v-col>
         <CobrancaPainel />
         <FtthPainel />
@@ -56,14 +56,25 @@ export default {
         ativa: 0
       }
     },
-    boletos: []
+    boletos: [],
+    usuario: {}
 
   }),
 
   created () {
+    this.usuario = this.$store.getters['auth/usuarioAutenticado']
   },
 
   methods: {
+
+    mostrar () {
+      console.log(this.usuario.empresa)
+      if (this.usuario.empresa.filialixc === '0') {
+        return false
+      } else {
+        return true
+      }
+    }
 
   }
 
