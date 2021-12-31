@@ -191,6 +191,7 @@ export default {
       })
     }
   },
+
   created () {
     this.servicosNaoExecutados()
   },

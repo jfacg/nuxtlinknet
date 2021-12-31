@@ -120,10 +120,18 @@
   </v-container>
 </template>
 <script>
+import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
   name: 'ProjetosIndex',
-  components: {},
+  asyncData (context) {
+    return context.$axios.$get(URI_BASE_API + API_VERSION + '/projetos')
+      .then((response) => {
+        return {
+          consultaProjetos: response
+        }
+      })
+  },
 
   data: () => ({
     items: [
@@ -138,17 +146,22 @@ export default {
       }
     ],
     carregamento: false,
-    search: ''
+    search: '',
+    projetos: []
 
   }),
 
   computed: {
     listarProjetos () {
-      return this.$store.getters['projetos/listar_projetos'].filter((projetos) => {
+      return this.projetos.filter((projetos) => {
         return projetos.name.toLowerCase().match(this.search.toLowerCase())
       })
     }
 
+  },
+
+  created () {
+    this.projetos = this.consultaProjetos
   }
 
 }

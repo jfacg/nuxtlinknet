@@ -2,13 +2,13 @@
 import { Promise } from 'core-js'
 import { URI_BASE_API, API_VERSION } from '@/config/config'
 const actions = {
-  nuxtServerInit (vuexContext, context) {
-    return context.$axios
-      .$get(URI_BASE_API + API_VERSION + '/clientes')
-      .then((data) => {
-        vuexContext.commit('clientes/inserir_clientes', data)
-      })
-  },
+  // nuxtServerInit (vuexContext, context) {
+  //   return context.$axios
+  //     .$get(URI_BASE_API + API_VERSION + '/clientes')
+  //     .then((data) => {
+  //       vuexContext.commit('clientes/inserir_clientes', data)
+  //     })
+  // },
 
   async buscarClienteInstalacao (vuexContext, params) {
     return await new Promise((resolve, reject) => {

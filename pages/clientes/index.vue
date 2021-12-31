@@ -118,9 +118,19 @@
   </v-container>
 </template>
 <script>
+import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
   name: 'ClientesIndex',
+
+  asyncData (context) {
+    return context.$axios.$get(URI_BASE_API + API_VERSION + '/clientes')
+      .then((response) => {
+        return {
+          consultaClientes: response
+        }
+      })
+  },
 
   data: () => ({
     items: [
@@ -135,15 +145,20 @@ export default {
       }
     ],
     carregamento: false,
-    search: ''
+    search: '',
+    clientes: []
   }),
 
   computed: {
     listarClientes () {
-      return this.$store.getters['clientes/listar_clientes'].filter((clientes) => {
+      return this.clientes.filter((clientes) => {
         return clientes.name.toLowerCase().match(this.search.toLowerCase())
       })
     }
+  },
+
+  created () {
+    this.clientes = this.consultaClientes
   },
 
   methods: {
