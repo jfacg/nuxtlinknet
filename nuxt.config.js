@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - nuxtlinknet',
-    title: 'nuxtlinknet',
+    titleTemplate: '%s Telecom',
+    title: 'LINKNET',
     htmlAttrs: {
       lang: 'en'
     },

@@ -157,10 +157,11 @@ export default {
   computed: {
     listarCaixas () {
       return this.caixas.data.filter((caixa) => {
-        if (caixa.name === null) {
-          caixa.name = ''
-        }
-        return caixa.name.toLowerCase().match(this.buscar.nome.toLowerCase())
+        // if (caixa.name === null) {
+        //   caixa.name = ''
+        // }
+        return caixa.name.match(this.buscar.nome)
+        // return caixa.name.toLowerCase().match(this.buscar.nome.toLowerCase())
       }).filter((caixa) => {
         return caixa.address.toLowerCase().match(this.buscar.endereco.toLowerCase())
       })

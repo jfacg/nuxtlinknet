@@ -229,6 +229,10 @@ export default {
       {
         label: 'Vendedor',
         field: 'vendedorNome'
+      },
+      {
+        label: 'Observação',
+        field: 'observacao'
       }
 
     ],
@@ -261,14 +265,18 @@ export default {
           const cliente = { ...servico.cliente }
           const vendedor = { ...servico.vendedor }
           servicoExcel.clienteNome = cliente.name
+          servicoExcel.dataExecucao = this.formatarData(servicoExcel.dataExecucao)
           servicoExcel.clienteEndereco = cliente.street + ', ' + cliente.number
-          servicoExcel.vendodorNome = vendedor.name
+          servicoExcel.vendedorNome = vendedor.name
           this.servicosExcel.push(servicoExcel)
         }
       })
     },
     formatarDataHora (data) {
       return moment(data).format('DD-MM-YYYY HH:mm')
+    },
+    formatarData (data) {
+      return moment(data).format('DD-MM-YYYY')
     }
   }
 
