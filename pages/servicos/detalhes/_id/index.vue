@@ -34,9 +34,10 @@
                     <br>
                     Cliente: {{ servico.cliente.name }} <br>
                     Data de Nascimento: {{ servico.cliente.birthday }} <br>
-                    CPF: {{ servico.cliente.cpf }}<br>
+                    CPF: {{ formataCpf(servico.cliente.cpf) }}<br>
+                    RG: {{ servico.cliente.rg }}<br>
                     Email: {{ servico.cliente.email }}<br>
-                    Contato 1: {{ servico.cliente.cellPhone1 }} - Contato 2: {{ servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' }}<br>
+                    Contato 1: {{ formataCelular(servico.cliente.cellPhone1) }} - Contato 2: {{ formataCelular(servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' ) }}<br>
                     Endereço: {{ servico.cliente.street }}, {{ servico.cliente.number }}<br>
                     Complemento: {{ servico.cliente.complement }}<br>
                     Bairro: {{ servico.cliente.district }} - CEP: {{ servico.cliente.cep }}<br>
@@ -59,6 +60,7 @@
                     Plano: {{ servico.plano }}<br>
                     Valor do Plano: {{ servico.valorPlano }}<br>
                     Data Vencimento: {{ servico.vencimento }}<br>
+                    Boleto Digital: {{ servico.boletodigital = "S" ? 'SIM' : 'NÃO' }}<br>
                     Pagamento da Instalação: {{ servico.pagamento }}<br>
                     Valor da Instalação: {{ servico.valorInstalacao }}<br>
                     Vendedor: {{ servico.vendedor.name }}<br>
@@ -586,6 +588,30 @@ export default {
             this.$toast.error(error.toString())
           })
         })
+    },
+
+    formataCelular (cell) {
+      const cpfOriginal = cell
+      let cellFormatado = ''
+
+      cellFormatado = cpfOriginal.replace(/(\d{2})(\d{5})(\d{4})/,
+        function (regex, argumento1, argumento2, argumento3) {
+          return `(${argumento1}) ${argumento2}-${argumento3}`
+        })
+
+      return cellFormatado
+    },
+
+    formataCpf (cpf) {
+      const cpfOriginal = cpf
+      let cpfFormatado = ''
+
+      cpfFormatado = cpfOriginal.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
+        function (regex, argumento1, argumento2, argumento3, argumento4) {
+          return `${argumento1}.${argumento2}.${argumento3}-${argumento4}`
+        })
+
+      return cpfFormatado
     }
   }
 }
