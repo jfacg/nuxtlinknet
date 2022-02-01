@@ -5,10 +5,9 @@
       <v-flex>
         <v-card
           elevation="24"
-          loading
+          :loading="loading"
           outlined
-          shaped
-          pa-4
+          pa-2
         >
           <v-card-title>
             <v-container>
@@ -24,26 +23,16 @@
                     color="primary"
                     elevation="10"
                     exact
+                    to="/servicos/criar/servico"
                     link
                   >
-                    Criar Novo Serviço
+                    Novo Serviço
                     <v-icon right>
                       add
                     </v-icon>
                   </v-btn>
                 </v-col>
                 <v-col>
-                  <!-- <v-btn
-                    color="primary"
-                    elevation="10"
-                    x-small
-                    to="/servicos/status/executados"
-                    exact
-                    link
-                  >
-                    Listar Serviços Executados
-                  </v-btn>
-                  <v-divider /> -->
                   <v-text-field
                     v-model="search"
                     prepend-icon="search"
@@ -55,12 +44,10 @@
               </v-row>
             </v-container>
           </v-card-title>
-          <v-card-subtitle>
-            <v-breadcrumbs :items="items" />
-          </v-card-subtitle>
+
           <v-card-text>
             <v-simple-table
-              height="300px"
+              height="400px"
               fixed-header
             >
               <template #default>
@@ -105,8 +92,21 @@
                     <td class="text-center">
                       {{ formatarDataHora(servico.dataAgendamento) }}
                     </td>
-                    <td>{{ servico.cliente.name }}</td>
-                    <td>{{ servico.cliente.street }}, {{ servico.cliente.number }}</td>
+
+                    <td v-if="servico.tipo === 'INSTALAÇÃO'">
+                      {{ servico.cliente.name }}
+                    </td>
+                    <td v-if="servico.tipo === 'INSTALAÇÃO'">
+                      {{ servico.cliente.street }}, {{ servico.cliente.number }}
+                    </td>
+
+                    <td v-if="servico.tipo !== 'INSTALAÇÃO'">
+                      {{ servico.clienteNome }}
+                    </td>
+                    <td v-if="servico.tipo !== 'INSTALAÇÃO'">
+                      {{ servico.logradouro }}, {{ servico.numero }}
+                    </td>
+
                     <td>{{ servico.tecnico ? servico.tecnico.nick_name : "" }}</td>
                     <td>{{ servico.status }}</td>
                     <td width="100px">
@@ -123,6 +123,7 @@
                         <v-icon>settings</v-icon>
                       </v-btn>
                       <v-btn
+                        v-if="servico.tipo === 'INSTALAÇÃO'"
                         class="ml-2 mr-2"
                         color="primary"
                         elevation="10"
@@ -131,6 +132,19 @@
                         link
                         exact
                         :to="{name: 'servicos-editar-instalacao-id', params: {id:servico.id}}"
+                      >
+                        <v-icon>edit</v-icon>
+                      </v-btn>
+                      <v-btn
+                        v-if="servico.tipo !== 'INSTALAÇÃO'"
+                        class="ml-2 mr-2"
+                        color="primary"
+                        elevation="10"
+                        icon
+                        x-small
+                        link
+                        exact
+                        :to="{name: 'servicos-editar-servico-id', params: {id:servico.id}}"
                       >
                         <v-icon>edit</v-icon>
                       </v-btn>
@@ -174,6 +188,7 @@ export default {
         disabled: true
       }
     ],
+    loading: false,
     search: '',
     servicosAbertos: [],
     servicosOrdenados: []
@@ -183,11 +198,10 @@ export default {
   computed: {
     listarServicos () {
       return this.servicosAbertos.filter((servicos) => {
-        if (servicos.cliente.name.toLowerCase().match(this.search.toLowerCase())) {
+        if (servicos.tipo.toLowerCase().match(this.search.toLowerCase())) {
           return servicos
         }
         return ''
-        // return servicos.tipo.toLowerCase().match(this.search.toLowerCase())
       })
     }
   },

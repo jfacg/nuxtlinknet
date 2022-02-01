@@ -102,8 +102,18 @@
                     <td class="text-center">
                       {{ formatarDataHora(servico.dataExecucao) }}
                     </td>
-                    <td>{{ servico.cliente.name }}</td>
-                    <td>{{ servico.cliente.street }}, {{ servico.cliente.number }}</td>
+                    <td v-if="servico.tipo === 'INSTALAÇÃO'">
+                      {{ servico.cliente.name }}
+                    </td>
+                    <td v-if="servico.tipo === 'INSTALAÇÃO'">
+                      {{ servico.cliente.street }}, {{ servico.cliente.number }}
+                    </td>
+                    <td v-if="servico.tipo !== 'INSTALAÇÃO'">
+                      {{ servico.clienteNome }}
+                    </td>
+                    <td v-if="servico.tipo !== 'INSTALAÇÃO'">
+                      {{ servico.logradouro }}, {{ servico.numero }}
+                    </td>
                     <td>{{ servico.tecnico ? servico.tecnico.nick_name : "" }}</td>
                     <td>{{ servico.status }}</td>
                     <td width="100px">

@@ -31,17 +31,31 @@
                   </v-card-title>
 
                   <v-card-text>
-                    <br>
-                    Cliente: {{ servico.cliente.name }} <br>
-                    Data de Nascimento: {{ servico.cliente.birthday }} <br>
-                    CPF: {{ formataCpf(servico.cliente.cpf) }}<br>
-                    RG: {{ servico.cliente.rg }}<br>
-                    Email: {{ servico.cliente.email }}<br>
-                    Contato 1: {{ formataCelular(servico.cliente.cellPhone1) }} - Contato 2: {{ formataCelular(servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' ) }}<br>
-                    Endereço: {{ servico.cliente.street }}, {{ servico.cliente.number }}<br>
-                    Complemento: {{ servico.cliente.complement }}<br>
-                    Bairro: {{ servico.cliente.district }} - CEP: {{ servico.cliente.cep }}<br>
-                    Cidade: {{ servico.cliente.city }} - {{ servico.cliente.state }}<br>
+                    <div v-if="servico.tipo === 'INSTALAÇÃO'">
+                      <br>
+                      Cliente: {{ servico.cliente.name }} <br>
+                      Data de Nascimento: {{ servico.cliente.birthday }} <br>
+                      CPF: {{ formataCpf(servico.cliente.cpf) }}<br>
+                      RG: {{ servico.cliente.rg }}<br>
+                      Email: {{ servico.cliente.email }}<br>
+                      Contato 1: {{ formataCelular(servico.cliente.cellPhone1) }} - Contato 2: {{ formataCelular(servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' ) }}<br>
+                      Endereço: {{ servico.cliente.street }}, {{ servico.cliente.number }}<br>
+                      Complemento: {{ servico.cliente.complement }}<br>
+                      Bairro: {{ servico.cliente.district }} - CEP: {{ servico.cliente.cep }}<br>
+                      Cidade: {{ servico.cliente.city }} - {{ servico.cliente.state }}<br>
+                    </div>
+
+                    <div v-if="servico.tipo !== 'INSTALAÇÃO'">
+                      <br>
+                      Cliente: {{ servico.clienteNome }} <br>
+                      CPF: {{ servico.clienteCpf }}<br>
+                      Email: {{ servico.clienteEmail }}<br>
+                      Contato: {{ formataCelular(servico.clienteContato) }}<br>
+                      Endereço: {{ servico.logradouro }}, {{ servico.numbero }}<br>
+                      Complemento: {{ servico.complemento }}<br>
+                      Bairro: {{ servico.bairro }} - CEP: {{ servico.cep }}<br>
+                      Cidade: {{ servico.cidade }} - {{ servico.uf }}<br>
+                    </div>
                   </v-card-text>
                 </v-card>
                 <br>
@@ -60,10 +74,10 @@
                     Plano: {{ servico.plano }}<br>
                     Valor do Plano: {{ servico.valorPlano }}<br>
                     Data Vencimento: {{ servico.vencimento }}<br>
-                    Boleto Digital: {{ servico.boletodigital = "S" ? 'SIM' : 'NÃO' }}<br>
+                    Boleto Digital: {{ servico.boletodigital === "S" ? 'SIM' : 'NÃO' }}<br>
                     Pagamento da Instalação: {{ servico.pagamento }}<br>
                     Valor da Instalação: {{ servico.valorInstalacao }}<br>
-                    Vendedor: {{ servico.vendedor.name }}<br>
+                    Vendedor: {{ servico.vendedor ? servico.vendedor.name : '' }}<br>
                     Venda via: {{ servico.contato }}<br>
                     <div v-if="servico.contato === 'INDICACAO' ">
                       Cliente que indicou: {{ servico.indicacao }}<br>

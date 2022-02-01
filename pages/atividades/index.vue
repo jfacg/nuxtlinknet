@@ -14,26 +14,50 @@
               max-width="500"
             >
               <template #activator="{ on, attrs }">
-                <v-card
-                  link
-                  v-bind="attrs"
-                  :color="verificarVencimento(servico.dataAgendamento)"
-                  max-width="400"
-                  v-on="on"
-                  @click="selecionarServico(servico)"
-                >
-                  <v-card-title>
-                    <span>{{ servico.tipo }} - {{ servico.status }}</span>
-                  </v-card-title>
-                  <v-divider />
-                  <v-card-subtitle>
-                    {{ servico.cliente.name }} <br>
-                    {{ formatarDataHora(servico.dataAgendamento) }} <br>
-                    {{ servico.cliente.street }}, {{ servico.cliente.number }} <br>
-                    {{ servico.cliente.district }} <br>
-                  </v-card-subtitle>
-                </v-card>
-                <br>
+                <div v-if="servico.tipo === 'INSTALAÇÃO'">
+                  <v-card
+                    link
+                    v-bind="attrs"
+                    :color="verificarVencimento(servico.dataAgendamento)"
+                    max-width="400"
+                    v-on="on"
+                    @click="selecionarServico(servico)"
+                  >
+                    <v-card-title>
+                      <span>{{ servico.tipo }} - {{ servico.status }}</span>
+                    </v-card-title>
+                    <v-divider />
+                    <v-card-subtitle>
+                      {{ servico.cliente.name }} <br>
+                      {{ formatarDataHora(servico.dataAgendamento) }} <br>
+                      {{ servico.cliente.street }}, {{ servico.cliente.number }} <br>
+                      {{ servico.cliente.district }} <br>
+                    </v-card-subtitle>
+                  </v-card>
+                  <br>
+                </div>
+                <div v-else>
+                  <v-card
+                    link
+                    v-bind="attrs"
+                    :color="verificarVencimento(servico.dataAgendamento)"
+                    max-width="400"
+                    v-on="on"
+                    @click="selecionarServico(servico)"
+                  >
+                    <v-card-title>
+                      <span>{{ servico.tipo }} - {{ servico.status }}</span>
+                    </v-card-title>
+                    <v-divider />
+                    <v-card-subtitle>
+                      {{ servico.clienteNome }} <br>
+                      {{ formatarDataHora(servico.dataAgendamento) }} <br>
+                      {{ servico.logradouro }}, {{ servico.numero }} <br>
+                      {{ servico.bairro }} <br>
+                    </v-card-subtitle>
+                  </v-card>
+                  <br>
+                </div>
               </template>
 
               <v-card>
@@ -48,17 +72,30 @@
                     </v-card-title>
 
                     <v-card-text>
-                      <br>
-                      Cliente: {{ servicoSelecionado.cliente.name }} <br>
-                      Data de Nascimento: {{ formatarData(servicoSelecionado.cliente.birthday) }} <br>
-                      CPF: {{ formatarCpf(servicoSelecionado.cliente.cpf) }}<br>
-                      Email: {{ servicoSelecionado.cliente.email }}<br>
-                      Contato 1: {{ formatarTelefone(servicoSelecionado.cliente.cellPhone1) }} <br>
-                      Contato 2: {{ servicoSelecionado.cliente.cellPhone2 ? formatarTelefone(servicoSelecionado.cliente.cellPhone2) : '' }}<br>
-                      Endereço: {{ servicoSelecionado.cliente.street }}, {{ servicoSelecionado.cliente.number }}<br>
-                      Complemento: {{ servicoSelecionado.cliente.complement }}<br>
-                      Bairro: {{ servicoSelecionado.cliente.district }} - CEP: {{ servicoSelecionado.cliente.cep }}<br>
-                      Cidade: {{ servicoSelecionado.cliente.city }} - {{ servicoSelecionado.cliente.state }}<br>
+                      <div v-if="servicoSelecionado.tipo === 'INSTALAÇÃO'">
+                        <br>
+                        Cliente: {{ servicoSelecionado.cliente.name }} <br>
+                        Data de Nascimento: {{ formatarData(servicoSelecionado.cliente.birthday) }} <br>
+                        CPF: {{ formatarCpf(servicoSelecionado.cliente.cpf) }}<br>
+                        Email: {{ servicoSelecionado.cliente.email }}<br>
+                        Contato 1: {{ formatarTelefone(servicoSelecionado.cliente.cellPhone1) }} <br>
+                        Contato 2: {{ servicoSelecionado.cliente.cellPhone2 ? formatarTelefone(servicoSelecionado.cliente.cellPhone2) : '' }}<br>
+                        Endereço: {{ servicoSelecionado.cliente.street }}, {{ servicoSelecionado.cliente.number }}<br>
+                        Complemento: {{ servicoSelecionado.cliente.complement }}<br>
+                        Bairro: {{ servicoSelecionado.cliente.district }} - CEP: {{ servicoSelecionado.cliente.cep }}<br>
+                        Cidade: {{ servicoSelecionado.cliente.city }} - {{ servicoSelecionado.cliente.state }}<br>
+                      </div>
+                      <div v-else>
+                        <br>
+                        Cliente: {{ servicoSelecionado.clienteNome }} <br>
+                        CPF: {{ servicoSelecionado.clienteCpf }}<br>
+                        Email: {{ servicoSelecionado.clienteEmail }}<br>
+                        Contato 1: {{ servicoSelecionado.clienteContato }} <br>
+                        Endereço: {{ servicoSelecionado.logradouro }}, {{ servicoSelecionado.numero }}<br>
+                        Complemento: {{ servicoSelecionado.complemento }}<br>
+                        Bairro: {{ servicoSelecionado.bairro }} - CEP: {{ servicoSelecionado.cep }}<br>
+                        Cidade: {{ servicoSelecionado.cidade }} - {{ servicoSelecionado.uf }}<br>
+                      </div>
                     </v-card-text>
                   </v-card>
                   <br>
@@ -71,22 +108,42 @@
                     </v-card-title>
 
                     <v-card-text>
-                      <br>
-                      Serviço: {{ servicoSelecionado.tipo }} <br>
-                      Agendamento: {{ formatarDataHora(servicoSelecionado.dataAgendamento) }}<br>
-                      Plano: {{ servicoSelecionado.plano }}<br>
-                      Valor: R$ {{ servicoSelecionado.valorPlano }}<br>
-                      Vencimento: {{ formatarDataHora(servicoSelecionado.vencimento) }}<br>
-                      Boleto Digital: {{ servicoSelecionado.boletodigital === 'S' ? 'Sim' : 'Não' }}<br>
-                      Instalação: {{ servicoSelecionado.pagamento }}<br>
-                      Valor: R$ {{ servicoSelecionado.valorInstalacao }}<br>
-                      Vendedor: {{ servicoSelecionado.vendedor.name }}<br>
-                      Venda via: {{ servicoSelecionado.contato }}<br>
-                      <div v-if="servicoSelecionado.contato === 'INDICACAO' ">
-                        Indicação: {{ servicoSelecionado.indicacao }}<br>
+                      <div v-if="servicoSelecionado.tipo === 'INSTALAÇÃO'">
+                        <br>
+                        Serviço: {{ servicoSelecionado.tipo }} <br>
+                        Agendamento: {{ formatarDataHora(servicoSelecionado.dataAgendamento) }}<br>
+                        Plano: {{ servicoSelecionado.plano }}<br>
+                        Valor: R$ {{ servicoSelecionado.valorPlano }}<br>
+                        Vencimento: {{ formatarDataHora(servicoSelecionado.vencimento) }}<br>
+                        Boleto Digital: {{ servicoSelecionado.boletodigital === 'S' ? 'Sim' : 'Não' }}<br>
+                        Instalação: {{ servicoSelecionado.pagamento }}<br>
+                        Valor: R$ {{ servicoSelecionado.valorInstalacao }}<br>
+                        Vendedor: {{ servicoSelecionado.vendedor.name }}<br>
+                        Venda via: {{ servicoSelecionado.contato }}<br>
+                        <div v-if="servicoSelecionado.contato === 'INDICACAO' ">
+                          Indicação: {{ servicoSelecionado.indicacao }}<br>
+                        </div>
+                        Observação: {{ servicoSelecionado.observacao }}<br>
+                        <br>
                       </div>
-                      Observação: {{ servicoSelecionado.observacao }}<br>
-                      <br>
+                      <div v-else>
+                        <br>
+                        Serviço: {{ servicoSelecionado.tipo }} <br>
+                        Agendamento: {{ formatarDataHora(servicoSelecionado.dataAgendamento) }}<br>
+                        <!-- Plano: {{ servicoSelecionado.plano }}<br> -->
+                        <!-- Valor: R$ {{ servicoSelecionado.valorPlano }}<br> -->
+                        Vencimento: {{ formatarDataHora(servicoSelecionado.vencimento) }}<br>
+                        Boleto Digital: {{ servicoSelecionado.boletodigital === 'S' ? 'Sim' : 'Não' }}<br>
+                        <!-- Instalação: {{ servicoSelecionado.pagamento }}<br> -->
+                        <!-- Valor: R$ {{ servicoSelecionado.valorInstalacao }}<br> -->
+                        <!-- Vendedor: {{ servicoSelecionado.vendedor.name }}<br> -->
+                        <!-- Venda via: {{ servicoSelecionado.contato }}<br> -->
+                        <!-- <div v-if="servicoSelecionado.contato === 'INDICACAO' ">
+                          Indicação: {{ servicoSelecionado.indicacao }}<br>
+                        </div> -->
+                        Observação: {{ servicoSelecionado.observacao }}<br>
+                        <br>
+                      </div>
                       <v-divider />
                       <br>
                       <div v-if="servicoSelecionado.ixc">
@@ -182,12 +239,20 @@ export default {
     },
 
     selecionarServico (servico) {
-      const cpf = this.formatarCpf(servico.cliente.cpf)
-      this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/buscarPorCpf/' + cpf)
-        .then((response) => {
-          this.servicoSelecionado = servico
-          this.servicoSelecionado.ixc = response.data
-        })
+      if (servico.tipo === 'INSTALAÇÃO') {
+        const cpf = this.formatarCpf(servico.cliente.cpf)
+        this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/buscarPorCpf/' + cpf)
+          .then((response) => {
+            this.servicoSelecionado = servico
+            this.servicoSelecionado.ixc = response.data
+          })
+      } else {
+        this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/' + servico.clienteIdIxc)
+          .then((response) => {
+            this.servicoSelecionado = servico
+            this.servicoSelecionado.ixc = response
+          })
+      }
     },
 
     verificarVencimento (data) {

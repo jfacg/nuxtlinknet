@@ -224,6 +224,17 @@ export default {
           permissao: 'admin'
         },
         {
+          title: 'Tipos',
+          icon: 'lock',
+          to: '/tipos',
+          items: [
+            { title: 'Listrar Tipos', to: '/tipos', permissao: 'admin' },
+            { title: 'Criar Tipos', to: '/tipos/criar', permissao: 'admin' }
+
+          ],
+          permissao: 'admin'
+        },
+        {
           title: 'Clientes',
           icon: 'group',
           to: '/clientes',
