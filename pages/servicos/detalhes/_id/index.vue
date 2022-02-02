@@ -101,14 +101,16 @@
                     </div>
                     <v-divider />
                     <br>
-                    <span
-                      v-for="login in servico.ixccliente.logins"
-                      :key="login.id"
-                    >
+                    <div v-if="servico.ixccliente.logins">
+                      <span
+                        v-for="login in servico.ixccliente.logins"
+                        :key="login.id"
+                      >
 
-                      PPPoe: {{ login.login }} <br>
-                      Senha: {{ login.senha }}<br>
-                    </span>
+                        PPPoe: {{ login.login }} <br>
+                        Senha: {{ login.senha }}<br>
+                      </span>
+                    </div>
                     <br>
                     <v-divider />
                     <br>
@@ -267,7 +269,7 @@
                       </v-card-title>
                       <v-card-text>
                         <v-text-field
-                          v-model="servicoEditado.dataAgendamento"
+                          v-model="servico.dataAgendamento"
                           name="dataAgendamento"
                           label="Data do Agendamento"
                           type="datetime-local"
@@ -425,12 +427,7 @@ export default {
       }
 
     ],
-    servicoEditado: {
-      tecnico_id: '',
-      usuario_id: '',
-      status: '',
-      dataExecucao: ''
-    },
+
     dialogDespachar: false,
     dialogRemanejar: false,
     dialogReagendar: false,
@@ -447,12 +444,8 @@ export default {
 
   created () {
     this.buscarServico()
-    this.servicoEditado = this.servico
+    // this.servico = this.servico
     this.listarTecnicos()
-  },
-
-  beforeMount () {
-    // this.dadosixc()
   },
 
   methods: {
@@ -561,9 +554,9 @@ export default {
     },
 
     despachar () {
-      this.servicoEditado.status = 'DESPACHADO'
+      this.servico.status = 'DESPACHADO'
 
-      this.$store.dispatch('servicos/editarServico', this.servicoEditado)
+      this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
           this.dialogDespachar = false
           this.$toast.success('Servico Despachado')
@@ -579,9 +572,9 @@ export default {
     },
 
     remanejar () {
-      this.servicoEditado.status = 'REMANEJADO'
+      this.servico.status = 'REMANEJADO'
 
-      this.$store.dispatch('servicos/editarServico', this.servicoEditado)
+      this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
           this.dialogRemanejar = false
           this.$toast.success('Servico Remanejado')
@@ -596,10 +589,10 @@ export default {
     },
 
     reagendar () {
-      this.servicoEditado.status = 'REAGENDADO'
-      this.servicoEditado.tecnico_id = null
+      this.servico.status = 'REAGENDADO'
+      this.servico.tecnico_id = null
 
-      this.$store.dispatch('servicos/editarServico', this.servicoEditado)
+      this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
           this.dialogReagendar = false
           this.$toast.success('Servico Reagendado')
@@ -614,11 +607,11 @@ export default {
     },
 
     baixar () {
-      this.servicoEditado.status = 'EXECUTADO'
-      this.servicoEditado.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-      this.servicoEditado.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
+      this.servico.status = 'EXECUTADO'
+      this.servico.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
 
-      this.$store.dispatch('servicos/editarServico', this.servicoEditado)
+      this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
           this.dialogBaixar = false
           this.$toast.success('Servico Reagendado')
@@ -633,11 +626,11 @@ export default {
     },
 
     cancelar () {
-      this.servicoEditado.status = 'CANCELADO'
-      this.servicoEditado.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-      this.servicoEditado.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
+      this.servico.status = 'CANCELADO'
+      this.servico.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
 
-      this.$store.dispatch('servicos/editarServico', this.servicoEditado)
+      this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
           this.dialogBaixar = false
           this.$toast.success('Servico Reagendado')
@@ -652,7 +645,7 @@ export default {
     },
 
     tecnicoSelecionado (item) {
-      this.servicoEditado.tecnico_id = item.id
+      this.servico.tecnico_id = item.id
       return item.name
     },
 
