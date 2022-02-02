@@ -130,17 +130,10 @@
                         <br>
                         Serviço: {{ servicoSelecionado.tipo }} <br>
                         Agendamento: {{ formatarDataHora(servicoSelecionado.dataAgendamento) }}<br>
-                        <!-- Plano: {{ servicoSelecionado.plano }}<br> -->
-                        <!-- Valor: R$ {{ servicoSelecionado.valorPlano }}<br> -->
                         Vencimento: {{ formatarDataHora(servicoSelecionado.vencimento) }}<br>
                         Boleto Digital: {{ servicoSelecionado.boletodigital === 'S' ? 'Sim' : 'Não' }}<br>
-                        <!-- Instalação: {{ servicoSelecionado.pagamento }}<br> -->
-                        <!-- Valor: R$ {{ servicoSelecionado.valorInstalacao }}<br> -->
-                        <!-- Vendedor: {{ servicoSelecionado.vendedor.name }}<br> -->
-                        <!-- Venda via: {{ servicoSelecionado.contato }}<br> -->
-                        <!-- <div v-if="servicoSelecionado.contato === 'INDICACAO' ">
-                          Indicação: {{ servicoSelecionado.indicacao }}<br>
-                        </div> -->
+                        Reclamante: {{ servicoSelecionado.reclamante }}<br>
+                        Reclamação: {{ servicoSelecionado.tipo_reclamacao ? servicoSelecionado.tipo_reclamacao.tipoNome : '' }}<br>
                         Observação: {{ servicoSelecionado.observacao }}<br>
                         <br>
                       </div>

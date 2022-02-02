@@ -5,9 +5,6 @@
       <v-flex>
         <v-card
           elevation="24"
-          loading
-          outlined
-          shaped
           pa-4
           md6
         >
@@ -39,6 +36,7 @@
                       RG: {{ servico.cliente.rg }}<br>
                       Email: {{ servico.cliente.email }}<br>
                       Contato 1: {{ formataCelular(servico.cliente.cellPhone1) }} - Contato 2: {{ formataCelular(servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' ) }}<br>
+                      <!-- Contato 1: {{ formatarTelefone(servico.cliente.cellPhone1) }} - Contato 2: {{ formatarTelefone(servico.cliente.cellPhone2 ? servico.cliente.cellPhone2 : '' ) }}<br> -->
                       Endereço: {{ servico.cliente.street }}, {{ servico.cliente.number }}<br>
                       Complemento: {{ servico.cliente.complement }}<br>
                       Bairro: {{ servico.cliente.district }} - CEP: {{ servico.cliente.cep }}<br>
@@ -50,7 +48,7 @@
                       Cliente: {{ servico.clienteNome }} <br>
                       CPF: {{ servico.clienteCpf }}<br>
                       Email: {{ servico.clienteEmail }}<br>
-                      Contato: {{ formataCelular(servico.clienteContato) }}<br>
+                      <!-- Contato: {{ formataCelular(servico.clienteContato) }}<br> -->
                       Endereço: {{ servico.logradouro }}, {{ servico.numbero }}<br>
                       Complemento: {{ servico.complemento }}<br>
                       Bairro: {{ servico.bairro }} - CEP: {{ servico.cep }}<br>
@@ -68,21 +66,49 @@
                   </v-card-title>
 
                   <v-card-text>
-                    <br>
-                    Tipo do Serviço: {{ servico.tipo }} <br>
-                    Data de Agendamento: {{ servico.dataAgendamento }}<br>
-                    Plano: {{ servico.plano }}<br>
-                    Valor do Plano: {{ servico.valorPlano }}<br>
-                    Data Vencimento: {{ servico.vencimento }}<br>
-                    Boleto Digital: {{ servico.boletodigital === "S" ? 'SIM' : 'NÃO' }}<br>
-                    Pagamento da Instalação: {{ servico.pagamento }}<br>
-                    Valor da Instalação: {{ servico.valorInstalacao }}<br>
-                    Vendedor: {{ servico.vendedor ? servico.vendedor.name : '' }}<br>
-                    Venda via: {{ servico.contato }}<br>
-                    <div v-if="servico.contato === 'INDICACAO' ">
-                      Cliente que indicou: {{ servico.indicacao }}<br>
+                    <div v-if="servico.tipo === 'INSTALAÇÃO'">
+                      <br>
+                      Tipo do Serviço: {{ servico.tipo }} <br>
+                      Data de Agendamento: {{ servico.dataAgendamento }}<br>
+                      Plano: {{ servico.plano }}<br>
+                      Valor do Plano: {{ servico.valorPlano }}<br>
+                      Data Vencimento: {{ servico.vencimento }}<br>
+                      Boleto Digital: {{ servico.boletodigital === "S" ? 'SIM' : 'NÃO' }}<br>
+                      Pagamento da Instalação: {{ servico.pagamento }}<br>
+                      Valor da Instalação: {{ servico.valorInstalacao }}<br>
+                      Vendedor: {{ servico.vendedor ? servico.vendedor.name : '' }}<br>
+                      Venda via: {{ servico.contato }}<br>
+                      <div v-if="servico.contato === 'INDICACAO' ">
+                        Cliente que indicou: {{ servico.indicacao }}<br>
+                      </div>
+                      Reclamação: {{ servico.tipo.tipoNome }}<br>
+                      Reclamante: {{ servico.reclamante }}<br>
+                      Relato do cliente: {{ servico.relatoCliente }}<br>
+                      Observação: {{ servico.observacao }}<br>
+                      <br>
                     </div>
-                    Observação: {{ servico.observacao }}<br>
+                    <div v-if="servico.tipo !== 'INSTALAÇÃO'">
+                      <br>
+                      Tipo do Serviço: {{ servico.tipo }} <br>
+                      Data de Agendamento: {{ servico.dataAgendamento }}<br>
+                      Data Vencimento: {{ servico.vencimento }}<br>
+                      Boleto Digital: {{ servico.boletodigital === "S" ? 'SIM' : 'NÃO' }}<br>
+                      Reclamação: {{ servico.tipo_reclamacao ? servico.tipo_reclamacao.tipoNome : '' }}<br>
+                      Reclamante: {{ servico.reclamante }}<br>
+                      Relato do cliente: {{ servico.relatoCliente }}<br>
+                      Observação: {{ servico.observacao }}<br>
+                      <br>
+                    </div>
+                    <v-divider />
+                    <br>
+                    <span
+                      v-for="login in servico.ixccliente.logins"
+                      :key="login.id"
+                    >
+
+                      PPPoe: {{ login.login }} <br>
+                      Senha: {{ login.senha }}<br>
+                    </span>
                     <br>
                     <v-divider />
                     <br>
@@ -378,15 +404,6 @@ import { URI_BASE_API, API_VERSION } from '@/config/config'
 export default {
   name: 'ServicosDetalhes',
 
-  asyncData (context) {
-    return context.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/' + context.params.id)
-      .then((response) => {
-        return {
-          servico: response
-        }
-      })
-  },
-
   data: () => ({
     items: [
       {
@@ -419,16 +436,65 @@ export default {
     dialogReagendar: false,
     dialogBaixar: false,
     dialogCancelar: false,
-    tecnicos: []
+    tecnicos: [],
+    servico: {
+      ixccliente: {
+        logins: []
+      }
+    }
 
   }),
 
   created () {
+    this.buscarServico()
     this.servicoEditado = this.servico
     this.listarTecnicos()
   },
 
+  beforeMount () {
+    // this.dadosixc()
+  },
+
   methods: {
+    buscarServico () {
+      this.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/' + this.$route.params.id)
+        .then((servico) => {
+          this.servico = servico
+
+          // if (this.servico.tipo === 'INSTALAÇÃO') {
+          //   const cpf = this.formataCpf(this.servico.cliente.cpf)
+          //   this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/buscarPorCpf/' + cpf)
+          //     .then((ixc) => {
+          //       this.servico.ixc = ixc.data
+          //     })
+          // }
+
+          // if (this.servico.tipo !== 'INSTALAÇÃO') {
+          //   this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/' + this.servico.clienteIdIxc)
+          //     .then((ixc) => {
+          //       this.servico.ixc = ixc
+          //     })
+          // }
+        })
+    },
+
+    dadosixc () {
+      if (this.servico.tipo === 'INSTALAÇÃO') {
+        const cpf = this.formataCpf(this.servico.cliente.cpf)
+        this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/buscarPorCpf/' + cpf)
+          .then((ixc) => {
+            this.servico.ixc = ixc.data
+          })
+      }
+
+      if (this.servico.tipo !== 'INSTALAÇÃO') {
+        this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/' + this.servico.clienteIdIxc)
+          .then((ixc) => {
+            this.servico.ixc = ixc
+          })
+      }
+    },
+
     listarTecnicos () {
       this.$axios.$get(URI_BASE_API + API_VERSION + '/usuarios')
         .then((response) => {
@@ -614,6 +680,21 @@ export default {
         })
 
       return cellFormatado
+    },
+
+    formatarCpf (cpf) {
+      const parte1 = cpf.slice(0, 3)
+      const parte2 = cpf.slice(3, 6)
+      const parte3 = cpf.slice(6, 9)
+      const parte4 = cpf.slice(9, 11)
+      return `${parte1}.${parte2}.${parte3}-${parte4}`
+    },
+
+    formatarTelefone (telefone) {
+      const parte1 = telefone.slice(0, 2)
+      const parte2 = telefone.slice(2, 7)
+      const parte3 = telefone.slice(7, 11)
+      return '(' + parte1 + ') ' + parte2 + '-' + parte3
     },
 
     formataCpf (cpf) {

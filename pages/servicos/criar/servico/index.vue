@@ -125,7 +125,7 @@
                           Salvar
                         </v-btn>
                       </div>
-                      <div v-if="servico.tipo === 'MIGRAÇÃO' ">
+                      <div v-if="servico.tipo === 'MIGRAÇÃO' || servico.tipo === 'RETIRADA' || servico.tipo === 'RECEBIMENTO' ">
                         <v-textarea
                           v-model="servico.observacao"
                           name="observacao"
@@ -261,7 +261,9 @@ export default {
     servicoTipos: [
       'MUDANÇA',
       'MIGRAÇÃO',
-      'REPARO'
+      'REPARO',
+      'RECEBIMENTO',
+      'RETIRADA'
     ],
     servico: {
       tipo: '',
