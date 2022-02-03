@@ -211,6 +211,7 @@
                     Cód IXC: {{ cliente.id }} <br>
                     Cliente: {{ cliente.razao }} <br>
                     Endereço: {{ cliente.endereco }}, {{ cliente.numero }} <br>
+                    Complemento: {{ cliente.complemento }} <br>
                     Bairro: {{ cliente.bairro }} - Cep: {{ cliente.cep }} <br>
                     <br>
                     Email: {{ cliente.email }} <br>
@@ -274,12 +275,14 @@ export default {
       bairro: '',
       cidade: '',
       uf: '',
+      complemento: '',
       antigoCep: '',
       antigoLogradouro: '',
       antigoNumero: '',
       antigoBairro: '',
       antigaCidade: '',
       antigaUf: '',
+      antigoComplemento: '',
       observacao: '',
       dataAgendamento: '',
       clienteNome: '',
@@ -325,6 +328,7 @@ export default {
       this.servico.antigoBairro = val.bairro
       this.servico.antigaCidade = val.cidade
       this.servico.antigaUf = val.uf
+      this.servico.antigoComplemento = val.complemento
       this.servico.clienteNome = val.razao
       this.servico.clienteCpf = val.cnpj_cpf
       this.servico.clienteIdIxc = val.id
@@ -343,7 +347,7 @@ export default {
       this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
       this.servico.dataVencimento = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
       this.servico.status = 'AGENDADO'
-      if (this.servico.tipo !== 'INSTALAÇÃO') {
+      if (this.servico.tipo !== 'INSTALAÇÃO' && this.servico.tipo !== 'MUDANÇA') {
         this.dadosClienteIxc()
       }
 
@@ -367,6 +371,7 @@ export default {
       this.servico.bairro = this.cliente.bairro
       this.servico.cidade = this.cliente.cidade
       this.servico.uf = this.cliente.uf
+      this.servico.complemento = this.cliente.complemento
       this.servico.clienteNome = this.cliente.razao
       this.servico.clienteCpf = this.cliente.cnpj_cpf
       this.servico.clienteIdIxc = this.cliente.id

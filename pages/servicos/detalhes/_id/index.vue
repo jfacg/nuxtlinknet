@@ -48,7 +48,7 @@
                       Cliente: {{ servico.clienteNome }} <br>
                       CPF: {{ servico.clienteCpf }}<br>
                       Email: {{ servico.clienteEmail }}<br>
-                      <!-- Contato: {{ formataCelular(servico.clienteContato) }}<br> -->
+                      Contato: {{ servico.clienteContato }}<br>
                       Endereço: {{ servico.logradouro }}, {{ servico.numbero }}<br>
                       Complemento: {{ servico.complemento }}<br>
                       Bairro: {{ servico.bairro }} - CEP: {{ servico.cep }}<br>
