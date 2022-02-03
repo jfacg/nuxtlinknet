@@ -343,7 +343,7 @@ export default {
       this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
       this.servico.dataVencimento = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
       this.servico.status = 'AGENDADO'
-      if (this.servico.tipo === 'MIGRAÇÃO' || this.servico.tipo === 'REPARO') {
+      if (this.servico.tipo !== 'INSTALAÇÃO') {
         this.dadosClienteIxc()
       }
 

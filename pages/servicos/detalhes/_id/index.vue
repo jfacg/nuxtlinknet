@@ -101,7 +101,7 @@
                     </div>
                     <v-divider />
                     <br>
-                    <div v-if="servico.ixccliente.logins">
+                    <div v-if="servico.ixccliente !== null">
                       <span
                         v-for="login in servico.ixccliente.logins"
                         :key="login.id"
@@ -435,16 +435,13 @@ export default {
     dialogCancelar: false,
     tecnicos: [],
     servico: {
-      ixccliente: {
-        logins: []
-      }
+      ixccliente: null
     }
 
   }),
 
   created () {
     this.buscarServico()
-    // this.servico = this.servico
     this.listarTecnicos()
   },
 
@@ -453,21 +450,7 @@ export default {
       this.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/' + this.$route.params.id)
         .then((servico) => {
           this.servico = servico
-
-          // if (this.servico.tipo === 'INSTALAÇÃO') {
-          //   const cpf = this.formataCpf(this.servico.cliente.cpf)
-          //   this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/buscarPorCpf/' + cpf)
-          //     .then((ixc) => {
-          //       this.servico.ixc = ixc.data
-          //     })
-          // }
-
-          // if (this.servico.tipo !== 'INSTALAÇÃO') {
-          //   this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/cliente/' + this.servico.clienteIdIxc)
-          //     .then((ixc) => {
-          //       this.servico.ixc = ixc
-          //     })
-          // }
+          console.log(servico.ixccliente)
         })
     },
 
