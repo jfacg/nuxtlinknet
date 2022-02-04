@@ -208,6 +208,13 @@
                         Remanejar para o técnico
                       </v-card-title>
                       <v-card-text>
+                        <v-textarea
+                          v-model="motivo"
+                          name="motivo"
+                          label="Motivo do Remanejamento"
+                          hint="Motivo do Remanejamento"
+                          dense
+                        />
                         <v-select
                           :items="tecnicos"
                           label="Nome do Técnico"
@@ -231,6 +238,7 @@
                           Cancelar
                         </v-btn>
                         <v-btn
+                          v-if="novoTecnico !== '' && motivo !== '' "
                           color="green darken-1"
                           text
                           @click.stop="remanejar"
@@ -268,8 +276,15 @@
                         Reagendar Servico
                       </v-card-title>
                       <v-card-text>
+                        <v-textarea
+                          v-model="motivo"
+                          name="motivo"
+                          label="Motivo do Reagendamento"
+                          hint="Motivo do Reagendamento"
+                          dense
+                        />
                         <v-text-field
-                          v-model="servico.dataAgendamento"
+                          v-model="novaDataAgendamento"
                           name="dataAgendamento"
                           label="Data do Agendamento"
                           type="datetime-local"
@@ -285,6 +300,7 @@
                           Cancelar
                         </v-btn>
                         <v-btn
+                          v-if="novaDataAgendamento !== '' && motivo !== '' "
                           color="green darken-1"
                           text
                           @click.stop="reagendar"
@@ -321,7 +337,15 @@
                       <v-card-title class="text-h5">
                         Baixar Servico
                       </v-card-title>
-                      <v-card-text />
+                      <v-card-text>
+                        <v-textarea
+                          v-model="motivo"
+                          name="motivo"
+                          label="Motivo do Reagendamento"
+                          hint="Motivo do Reagendamento"
+                          dense
+                        />
+                      </v-card-text>
                       <v-card-actions>
                         <v-spacer />
                         <v-btn
@@ -332,6 +356,7 @@
                           Cancelar
                         </v-btn>
                         <v-btn
+                          v-if="motivo !== '' "
                           color="green darken-1"
                           text
                           @click.stop="baixar"
@@ -366,9 +391,17 @@
                     </template>
                     <v-card>
                       <v-card-title class="text-h5">
-                        Baixar Servico
+                        Cancelar Servico
                       </v-card-title>
-                      <v-card-text />
+                      <v-card-text>
+                        <v-textarea
+                          v-model="motivo"
+                          name="motivo"
+                          label="Motivo do Reagendamento"
+                          hint="Motivo do Reagendamento"
+                          dense
+                        />
+                      </v-card-text>
                       <v-card-actions>
                         <v-spacer />
                         <v-btn
@@ -379,6 +412,7 @@
                           Cancelar
                         </v-btn>
                         <v-btn
+                          v-if="motivo !== '' "
                           color="green darken-1"
                           text
                           @click.stop="cancelar"
@@ -436,7 +470,10 @@ export default {
     tecnicos: [],
     servico: {
       ixccliente: null
-    }
+    },
+    motivo: '',
+    novoTecnico: '',
+    novaDataAgendamento: ''
 
   }),
 
@@ -556,6 +593,8 @@ export default {
 
     remanejar () {
       this.servico.status = 'REMANEJADO'
+      this.servico.observacao = this.servico.observacao + ' -> ' + this.motivo
+      this.servico.tecnico_id = this.novoTecnico
 
       this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
@@ -574,6 +613,8 @@ export default {
     reagendar () {
       this.servico.status = 'REAGENDADO'
       this.servico.tecnico_id = null
+      this.servico.observacao = this.servico.observacao + ' -> ' + this.motivo
+      this.servico.dataAgendamento = this.novaDataAgendamento
 
       this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
@@ -593,6 +634,7 @@ export default {
       this.servico.status = 'EXECUTADO'
       this.servico.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
+      this.servico.observacao = this.servico.observacao + ' -> ' + this.motivo
 
       this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
@@ -612,6 +654,7 @@ export default {
       this.servico.status = 'CANCELADO'
       this.servico.dataExecucao = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       this.servico.usuario_id = this.$store.getters['auth/usuarioAutenticado'].id
+      this.servico.observacao = this.servico.observacao + ' -> ' + this.motivo
 
       this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
@@ -628,7 +671,8 @@ export default {
     },
 
     tecnicoSelecionado (item) {
-      this.servico.tecnico_id = item.id
+      this.novoTecnico = item.id
+
       return item.name
     },
 

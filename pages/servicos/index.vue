@@ -86,6 +86,7 @@
                   <tr
                     v-for="servico in listarServicos"
                     :key="servico.id"
+                    :style="statusColor(servico.dataAgendamento)"
                   >
                     <td>{{ servico.id }}</td>
                     <td>{{ servico.tipo }}</td>
@@ -168,10 +169,10 @@ export default {
   name: 'ServicosListar',
 
   asyncData (context) {
-    return context.$axios.$get(URI_BASE_API + API_VERSION + '/servicos')
+    return context.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/servicosAbertos')
       .then((response) => {
         return {
-          servicos: response
+          servicos: response.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
         }
       })
   },
@@ -197,7 +198,7 @@ export default {
 
   computed: {
     listarServicos () {
-      return this.servicosAbertos.filter((servicos) => {
+      return this.servicos.filter((servicos) => {
         if (servicos.tipo.toLowerCase().match(this.search.toLowerCase())) {
           return servicos
         }
@@ -207,20 +208,24 @@ export default {
   },
 
   created () {
-    this.servicosNaoExecutados()
   },
 
   methods: {
-    servicosNaoExecutados () {
-      const servicosOrdenados = this.servicos.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
-      servicosOrdenados.forEach((servico) => {
-        if (servico.status !== 'EXECUTADO' && servico.status !== 'BAIXADO' && servico.status !== 'CANCELADO') {
-          this.servicosAbertos.push(servico)
-        }
-      })
-    },
+
     formatarDataHora (data) {
       return moment(data).format('DD-MM-YYYY HH:mm')
+    },
+
+    statusColor (data) {
+      const vencimento = moment(data).format('DD-MM-YYYY HH:mm')
+      const dataAtual = moment(new Date()).format('DD-MM-YYYY HH:mm')
+      if (vencimento >= dataAtual) {
+        return 'color: green'
+      }
+
+      if (vencimento < dataAtual) {
+        return 'color: red'
+      }
     }
   }
 
