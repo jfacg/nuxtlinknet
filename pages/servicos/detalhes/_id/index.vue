@@ -575,6 +575,7 @@ export default {
 
     despachar () {
       this.servico.status = 'DESPACHADO'
+      this.servico.tecnico_id = this.novoTecnico
 
       this.$store.dispatch('servicos/editarServico', this.servico)
         .then(() => {
