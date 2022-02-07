@@ -168,15 +168,6 @@ import { URI_BASE_API, API_VERSION } from '@/config/config'
 export default {
   name: 'ServicosListar',
 
-  asyncData (context) {
-    return context.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/servicosAbertos')
-      .then((response) => {
-        return {
-          servicos: response.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
-        }
-      })
-  },
-
   data: () => ({
     items: [
       {
@@ -192,7 +183,9 @@ export default {
     loading: false,
     search: '',
     servicosAbertos: [],
-    servicosOrdenados: []
+    servicosOrdenados: [],
+    servicos: [],
+    tempo: ''
 
   }),
 
@@ -208,9 +201,20 @@ export default {
   },
 
   created () {
+    this.consultarServicos()
+    this.tempo = setInterval(this.consultarServicos, 60000)
   },
 
   methods: {
+
+    consultarServicos () {
+      this.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/servicosAbertos')
+        .then((response) => {
+          // return {
+          this.servicos = response.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
+          // }
+        })
+    },
 
     formatarDataHora (data) {
       return moment(data).format('DD-MM-YYYY HH:mm')

@@ -49,7 +49,7 @@
                       CPF: {{ servico.clienteCpf }}<br>
                       Email: {{ servico.clienteEmail }}<br>
                       Contato: {{ servico.clienteContato }}<br>
-                      Endereço: {{ servico.logradouro }}, {{ servico.numbero }}<br>
+                      Endereço: {{ servico.logradouro }}, {{ servico.numero }}<br>
                       Complemento: {{ servico.complemento }}<br>
                       Bairro: {{ servico.bairro }} - CEP: {{ servico.cep }}<br>
                       Cidade: {{ servico.cidade }} - {{ servico.uf }}<br>

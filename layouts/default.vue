@@ -284,10 +284,10 @@ export default {
       ],
       itemsMenuLateral: [
         {
-          title: 'Instalações',
+          title: 'Gerenciar',
           icon: 'dashboard',
           items: [
-            { title: 'Gerar Boleto', to: '/servicos/instalacoes/gerarboletos', permissao: 'admin' }
+            { title: 'Gerar Boleto', to: '/servicos/gerencia/gerarboletos', permissao: 'admin' }
           ],
           permissao: 'admin'
         },
