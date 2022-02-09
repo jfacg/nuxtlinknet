@@ -202,7 +202,7 @@ export default {
 
   created () {
     this.consultarServicos()
-    this.tempo = setInterval(this.consultarServicos, 60000)
+    // this.tempo = setInterval(this.consultarServicos, 60000)
   },
 
   methods: {
