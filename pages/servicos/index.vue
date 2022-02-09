@@ -184,8 +184,7 @@ export default {
     search: '',
     servicosAbertos: [],
     servicosOrdenados: [],
-    servicos: [],
-    tempo: ''
+    servicos: []
 
   }),
 
