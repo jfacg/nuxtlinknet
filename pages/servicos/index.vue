@@ -25,6 +25,7 @@
                     exact
                     to="/servicos/criar/servico"
                     link
+                    dense
                   >
                     Novo Serviço
                     <v-icon right>
@@ -37,9 +38,95 @@
                     v-model="search"
                     prepend-icon="search"
                     name="filter"
-                    label="Localizar por Tipo"
+                    label="Localizar por Técnico"
                     type="text"
+                    dense
                   />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-row>
+                    <v-flex
+                      xs12
+                      sm4
+                      md2
+                      lg2
+                    >
+                      <v-checkbox
+                        v-model="filtros.instalacao"
+                        label="Instalação"
+                        value="INSTALAÇÃO"
+                        dense
+                      />
+                    </v-flex>
+                    <v-flex
+                      xs12
+                      sm4
+                      md2
+                      lg2
+                    >
+                      <v-checkbox
+                        v-model="filtros.mudanca"
+                        label="Mudança"
+                        value="MUDANÇA"
+                        dense
+                      />
+                    </v-flex>
+                    <v-flex
+                      xs12
+                      sm4
+                      md2
+                      lg2
+                    >
+                      <v-checkbox
+                        v-model="filtros.migracao"
+                        label="Migração"
+                        value="MIGRAÇÃO"
+                        dense
+                      />
+                    </v-flex>
+                    <v-flex
+                      xs12
+                      sm4
+                      md2
+                      lg2
+                    >
+                      <v-checkbox
+                        v-model="filtros.reparo"
+                        label="Reparo"
+                        value="REPARO"
+                        dense
+                      />
+                    </v-flex>
+
+                    <v-flex
+                      xs12
+                      sm4
+                      md2
+                      lg2
+                    >
+                      <v-checkbox
+                        v-model="filtros.recebimento"
+                        label="Recebimento"
+                        value="RECEBIMENTO"
+                        dense
+                      />
+                    </v-flex>
+                    <v-flex
+                      xs12
+                      sm4
+                      md2
+                      lg2
+                    >
+                      <v-checkbox
+                        v-model="filtros.retirada"
+                        label="Retirada"
+                        value="RETIRADA"
+                        dense
+                      />
+                    </v-flex>
+                  </v-row>
                 </v-col>
               </v-row>
             </v-container>
@@ -49,6 +136,7 @@
             <v-simple-table
               height="400px"
               fixed-header
+              dense
             >
               <template #default>
                 <thead>
@@ -184,17 +272,76 @@ export default {
     search: '',
     servicosAbertos: [],
     servicosOrdenados: [],
-    servicos: []
+    servicos: [],
+    filtros: {
+      instalacao: 'INSTALAÇÃO',
+      mudanca: 'MUDANÇA',
+      migracao: 'MIGRAÇÃO',
+      reparo: 'REPARO',
+      recebimento: 'RECEBIMENTO',
+      retirada: 'RETIRADA'
+    }
 
   }),
 
   computed: {
     listarServicos () {
-      return this.servicos.filter((servicos) => {
-        if (servicos.tipo.toLowerCase().match(this.search.toLowerCase())) {
-          return servicos
+      const servicosfiltrados = []
+
+      if (this.filtros.instalacao) {
+        this.servicos.forEach((servico) => {
+          if (servico.tipo === this.filtros.instalacao) {
+            servicosfiltrados.push(servico)
+          }
+        })
+      }
+      if (this.filtros.migracao) {
+        this.servicos.forEach((servico) => {
+          if (servico.tipo === this.filtros.migracao) {
+            servicosfiltrados.push(servico)
+          }
+        })
+      }
+      if (this.filtros.mudanca) {
+        this.servicos.forEach((servico) => {
+          if (servico.tipo === this.filtros.mudanca) {
+            servicosfiltrados.push(servico)
+          }
+        })
+      }
+
+      if (this.filtros.reparo) {
+        this.servicos.forEach((servico) => {
+          if (servico.tipo === this.filtros.reparo) {
+            servicosfiltrados.push(servico)
+          }
+        })
+      }
+      if (this.filtros.recebimento) {
+        this.servicos.forEach((servico) => {
+          if (servico.tipo === this.filtros.recebimento) {
+            servicosfiltrados.push(servico)
+          }
+        })
+      }
+      if (this.filtros.retirada) {
+        this.servicos.forEach((servico) => {
+          if (servico.tipo === this.filtros.retirada) {
+            servicosfiltrados.push(servico)
+          }
+        })
+      }
+
+      return servicosfiltrados.filter((servico) => {
+        if (this.search.length > 0) {
+          if (servico.tecnico) {
+            if (servico.tecnico.nick_name.toLowerCase().match(this.search.toLowerCase())) {
+              return servico
+            }
+          }
+          return ''
         }
-        return ''
+        return servico
       })
     }
   },

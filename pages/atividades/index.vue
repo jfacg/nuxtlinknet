@@ -12,6 +12,7 @@
               v-model="dialogServico"
               persistent
               max-width="500"
+              :retain-focus="false"
             >
               <template #activator="{ on, attrs }">
                 <div v-if="servico.tipo === 'INSTALAÇÃO'">
