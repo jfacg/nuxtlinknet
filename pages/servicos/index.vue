@@ -224,7 +224,7 @@
                       >
                         <v-icon>edit</v-icon>
                       </v-btn>
-                      <v-btn
+                      <!-- <v-btn
                         v-if="servico.tipo !== 'INSTALAÇÃO'"
                         class="ml-2 mr-2"
                         color="primary"
@@ -236,7 +236,7 @@
                         :to="{name: 'servicos-editar-servico-id', params: {id:servico.id}}"
                       >
                         <v-icon>edit</v-icon>
-                      </v-btn>
+                      </v-btn> -->
                     </td>
                   </tr>
                 </tbody>
@@ -286,7 +286,7 @@ export default {
 
   computed: {
     listarServicos () {
-      const servicosfiltrados = []
+      let servicosfiltrados = []
 
       if (this.filtros.instalacao) {
         this.servicos.forEach((servico) => {
@@ -331,6 +331,8 @@ export default {
           }
         })
       }
+
+      servicosfiltrados = servicosfiltrados.sort((a, b) => (a.dataAgendamento > b.dataAgendamento) ? 1 : ((b.dataAgendamento > a.dataAgendamento) ? -1 : 0))
 
       return servicosfiltrados.filter((servico) => {
         if (this.search.length > 0) {
