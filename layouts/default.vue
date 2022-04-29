@@ -257,7 +257,7 @@ export default {
           icon: 'lock',
           to: '/maquinas',
           items: [
-            { title: 'Listrar Maquinas', to: '/maquinas', permissao: 'admin' },
+            { title: 'Listrar Maquinas', to: '/maquinas', permissao: 'maquinas' },
             { title: 'Criar Maquinas', to: '/maquinas/criar', permissao: 'admin' }
 
           ],
