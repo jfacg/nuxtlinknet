@@ -16,6 +16,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js'
+      }
     ]
   },
 
@@ -35,7 +40,8 @@ export default {
     { src: '~/plugins/vue-viacep.js', ssr: false },
     { src: '~/plugins/vuetify-mask.js', ssr: false },
     { src: '~/plugins/moment.js', ssr: false },
-    { src: '~/plugins/vueExcel.js', ssr: false }
+    { src: '~/plugins/vueExcel.js', ssr: false },
+    { src: '~/plugins/bet.js', ssr: false }
     // { src: '~/plugins/mixins/mixins.js', ssr: false }
 
   ],
@@ -63,7 +69,8 @@ export default {
     '@nuxtjs/axios',
     'nuxt-material-design-icons',
     '@nuxtjs/universal-storage',
-    'vue-toastification/nuxt'
+    'vue-toastification/nuxt',
+    'nuxt-google-sheets-parser'
   ],
 
   storage: {

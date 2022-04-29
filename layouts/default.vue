@@ -167,6 +167,24 @@ export default {
         //   permissao: '',
         //   items: []
         // },
+        // {
+        //   title: 'Bet',
+        //   icon: 'store',
+        //   to: '/bets',
+        //   items: [
+        //     { title: 'Listar Dicas', to: '/bets', permissao: 'admin' },
+        //     { title: 'Consutar', to: '/bets/consultas', permissao: 'admin' },
+        //     { title: 'Importar jogos', to: '/bets/importar', permissao: 'admin' },
+        //     { title: 'Historico', to: '/bets/historico', permissao: 'admin' },
+        //     { title: 'AMBAS 0-0', to: '/bets/ambas/00isolado25', permissao: 'admin' },
+        //     { title: 'AMBAS 1-0', to: '/bets/ambas/10isolado25', permissao: 'admin' },
+        //     { title: 'AMBAS 2-0', to: '/bets/ambas/20isolado25', permissao: 'admin' },
+        //     { title: 'OVER 0-0', to: '/bets/over/00isolado25', permissao: 'admin' },
+        //     { title: 'OVER 1-0', to: '/bets/over/10isolado25', permissao: 'admin' },
+        //     { title: 'OVER 2-0', to: '/bets/over/20isolado25', permissao: 'admin' }
+        //   ],
+        //   permissao: 'admin'
+        // },
         {
           title: 'Dashboard',
           icon: 'dashboard',
@@ -190,7 +208,7 @@ export default {
           icon: 'store',
           to: '/empresas',
           items: [
-            { title: 'Listrar Empresas', to: '/empresas', permissao: 'admin' },
+            { title: 'Listar Empresas', to: '/empresas', permissao: 'admin' },
             { title: 'Criar Empresa', to: '/empresas/criar', permissao: 'admin' }
           ],
           permissao: 'admin'
@@ -230,6 +248,17 @@ export default {
           items: [
             { title: 'Listrar Tipos', to: '/tipos', permissao: 'admin' },
             { title: 'Criar Tipos', to: '/tipos/criar', permissao: 'admin' }
+
+          ],
+          permissao: 'admin'
+        },
+        {
+          title: 'Maquinas',
+          icon: 'lock',
+          to: '/maquinas',
+          items: [
+            { title: 'Listrar Maquinas', to: '/maquinas', permissao: 'admin' },
+            { title: 'Criar Maquinas', to: '/maquinas/criar', permissao: 'admin' }
 
           ],
           permissao: 'admin'
