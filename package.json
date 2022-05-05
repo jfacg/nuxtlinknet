@@ -24,6 +24,7 @@
     "vue-filereader": "^0.1.1",
     "vue-js-xlsx": "0.0.2",
     "vue-mg-csv-importer": "^1.0.5",
+    "vue-resource": "^1.5.3",
     "vue-toastification": "^1.7.11",
     "vue-viacep": "^1.0.4",
     "vue-xlsx": "^0.2.1",

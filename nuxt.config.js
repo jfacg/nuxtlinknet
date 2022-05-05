@@ -41,7 +41,8 @@ export default {
     { src: '~/plugins/vuetify-mask.js', ssr: false },
     { src: '~/plugins/moment.js', ssr: false },
     { src: '~/plugins/vueExcel.js', ssr: false },
-    { src: '~/plugins/bet.js', ssr: false }
+    { src: '~/plugins/bet.js', ssr: false },
+    { src: '~/plugins/resource.js', ssr: false }
     // { src: '~/plugins/mixins/mixins.js', ssr: false }
 
   ],

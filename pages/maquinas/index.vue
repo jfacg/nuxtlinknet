@@ -156,7 +156,10 @@ export default {
     data: [],
     file_name: '',
     checked: false,
-    usuario: null
+    usuario: null,
+
+    token: '5378564551:AAEeYFReaur4MmKY-GAyewznFhVB1NKq0zo',
+    chatId: -737937328
 
   }),
 
@@ -207,15 +210,23 @@ export default {
 
     solicitar (maquina) {
       maquina.maquinaStatus = this.$store.getters['auth/usuarioAutenticado'].nick_name
+      maquina.usuario = this.$store.getters['auth/usuarioAutenticado'].nick_name
+      maquina.titulo = 'SOLICITAÇÃO DE MAQUINA'
+      // const texto = `Solicitante: ${this.usuario.nick_name}` + '\n' + `Maquina: ${maquina.maquinaNome}`
+
+      // console.log(texto)
 
       this.$axios.$put(URI_BASE_API + API_VERSION + '/maquinas/' + maquina.id, maquina)
         .then((response) => {
+          // this.enviarTelegram(texto)
           this.$toast.success('Maquina Solicitada')
         })
     },
 
     devolver (maquina) {
       maquina.maquinaStatus = 'Devolvido ' + this.$store.getters['auth/usuarioAutenticado'].nick_name
+      maquina.usuario = this.$store.getters['auth/usuarioAutenticado'].nick_name
+      maquina.titulo = 'DEVOLUÇÃO DE MAQUINA'
 
       this.$axios.$put(URI_BASE_API + API_VERSION + '/maquinas/' + maquina.id, maquina)
         .then((response) => {
@@ -225,12 +236,22 @@ export default {
 
     receber (maquina) {
       maquina.maquinaStatus = 'ESTOQUE'
+      maquina.usuario = this.$store.getters['auth/usuarioAutenticado'].nick_name
+      maquina.titulo = 'RECEBIMENTO DE MAQUINA'
 
       this.$axios.$put(URI_BASE_API + API_VERSION + '/maquinas/' + maquina.id, maquina)
         .then((response) => {
           this.$toast.success('Maquina Recebida')
         })
+    },
+
+    enviarTelegram (texto) {
+      this.$axios.post(`https://api.telegram.org/bot${this.token}/sendMessage?chat_id=${this.chatId}&text=${texto}`)
+        .then(() => {
+          console.log('deu certo')
+        })
     }
+
   }
 
 }
