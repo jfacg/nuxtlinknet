@@ -261,7 +261,7 @@ export default {
             { title: 'Criar Maquinas', to: '/maquinas/criar', permissao: 'admin' }
 
           ],
-          permissao: 'admin'
+          permissao: 'maquinas'
         },
         {
           title: 'Clientes',
@@ -334,6 +334,14 @@ export default {
           permissao: 'admin',
           items: [
             { title: 'Gerenciar', to: '/watches/gerencia', permissao: 'admin' }
+          ]
+        },
+        {
+          title: 'Monitor',
+          icon: 'live_tv',
+          permissao: 'admin',
+          items: [
+            { title: 'Logins', to: '/monitor/logins', permissao: 'monitor' }
           ]
         }
 

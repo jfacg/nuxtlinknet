@@ -151,6 +151,9 @@
                       Agendamento
                     </th>
                     <th class="text-left">
+                      Vencimento
+                    </th>
+                    <th class="text-left">
                       Cliente
                     </th>
                     <th class="text-left">
@@ -158,6 +161,9 @@
                     </th>
                     <th class="text-left">
                       Técnico
+                    </th>
+                    <th class="text-left">
+                      Rep
                     </th>
                     <th class="text-left">
                       Status
@@ -181,6 +187,9 @@
                     <td class="text-center">
                       {{ formatarDataHora(servico.dataAgendamento) }}
                     </td>
+                    <td class="text-center">
+                      {{ vencimento(servico.dataAgendamento) }}
+                    </td>
 
                     <td v-if="servico.tipo === 'INSTALAÇÃO'">
                       {{ servico.cliente.name }}
@@ -197,6 +206,7 @@
                     </td>
 
                     <td>{{ servico.tecnico ? servico.tecnico.nick_name : "" }}</td>
+                    <td>{{ servico.repetidas }}</td>
                     <td>{{ servico.status }}</td>
                     <td width="100px">
                       <v-btn
@@ -350,7 +360,7 @@ export default {
 
   created () {
     this.consultarServicos()
-    // this.tempo = setInterval(this.consultarServicos, 60000)
+    this.tempo = setInterval(this.consultarServicos, 60000)
   },
 
   methods: {
@@ -368,8 +378,12 @@ export default {
       return moment(data).format('DD-MM-YYYY HH:mm')
     },
 
+    vencimento (data) {
+      return moment(data).add(2, 'hours').format('DD-MM-YYYY HH:mm')
+    },
+
     statusColor (data) {
-      const vencimento = moment(data).format('DD-MM-YYYY HH:mm')
+      const vencimento = moment(data).add(2, 'hours').format('DD-MM-YYYY HH:mm')
       const dataAtual = moment(new Date()).format('DD-MM-YYYY HH:mm')
       if (vencimento >= dataAtual) {
         return 'color: green'

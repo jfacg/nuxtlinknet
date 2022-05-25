@@ -159,16 +159,31 @@ export default {
     usuario: null,
 
     token: '5378564551:AAEeYFReaur4MmKY-GAyewznFhVB1NKq0zo',
-    chatId: -737937328
+    chatId: -737937328,
+
+    tempo: ''
 
   }),
 
   created () {
     this.usuario = this.$store.getters['auth/usuarioAutenticado']
     this.consultarMaquinas()
+    // setInterval(this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/telegram'), 30000)
+    this.tempo = setInterval(this.log, 60000)
   },
 
   methods: {
+
+    log () {
+      clearInterval(this.tempo)
+      // this.$axios.$get(URI_BASE_API + API_VERSION + '/ixc/telegram')
+      //   .then(() => {
+      //     console.log('telegram')
+      //   })
+      //   .catch(() => {
+      //     clearInterval(this.tempo)
+      //   })
+    },
 
     consultarMaquinas () {
       this.$axios.$get(URI_BASE_API + API_VERSION + '/maquinas')
@@ -242,6 +257,7 @@ export default {
       this.$axios.$put(URI_BASE_API + API_VERSION + '/maquinas/' + maquina.id, maquina)
         .then((response) => {
           this.$toast.success('Maquina Recebida')
+          this.$router.push('/maquinas')
         })
     },
 
