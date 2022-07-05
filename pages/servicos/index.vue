@@ -206,8 +206,65 @@
                     </td>
 
                     <td>{{ servico.tecnico ? servico.tecnico.nick_name : "" }}</td>
-                    <td>{{ servico.repetidas }}</td>
-                    <td>{{ servico.status }}</td>
+                    <td>
+                      <div class="text-center">
+                        <v-dialog
+                          v-model="dialog"
+                          width="500"
+                          :retain-focus="false"
+                        >
+                          <template #activator="{ on, attrs }">
+                            <div
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              {{ servico.repetidas }}
+                            </div>
+                          </template>
+
+                          <v-card>
+                            <v-card-title class="text-h5 grey lighten-2">
+                              Reclamações
+                            </v-card-title>
+
+                            <v-card-text>
+                              <div
+                                v-for="reparo in servico.reparos"
+                                :key="reparo.id"
+                              >
+                                <br>
+                                Cliente: {{ reparo.clienteNome }} <br>
+                                Endereço: {{ reparo.logradouro }}, {{ reparo.numero }}  <br>
+                                Reclamação: {{ reparo.relatoCliente }}  <br>
+                                Reclamante: {{ reparo.reclamante }}  <br>
+                                Baixa: {{ reparo.observacao }} <br>
+                                Tecnico: {{ reparo.tecnico ? reparo.tecnico.nick_name : "" }} <br>
+                                Status: {{ reparo.status }} <br>
+                                Data: {{ reparo.dataExecucao }} <br>
+                                <br>
+                                <v-divider />
+                              </div>
+                            </v-card-text>
+
+                            <v-divider />
+
+                            <v-card-actions>
+                              <v-spacer />
+                              <v-btn
+                                color="primary"
+                                text
+                                @click="dialog = false"
+                              >
+                                Sair
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </div>
+                    </td>
+                    <td>
+                      {{ servico.status }}
+                    </td>
                     <td width="100px">
                       <v-btn
                         color="orange"
@@ -279,6 +336,7 @@ export default {
       }
     ],
     loading: false,
+    dialog: false,
     search: '',
     servicosAbertos: [],
     servicosOrdenados: [],

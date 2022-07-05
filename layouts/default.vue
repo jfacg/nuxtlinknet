@@ -321,6 +321,22 @@ export default {
           permissao: 'admin'
         },
         {
+          title: 'Controle',
+          icon: 'dashboard',
+          items: [
+            { title: 'Equipamentos', to: '/controle/equipamentos', permissao: 'controle' }
+          ],
+          permissao: 'controle'
+        },
+        {
+          title: 'Qualidade',
+          icon: 'dashboard',
+          items: [
+            { title: 'Instalações', to: '/qualidade/instalacoes', permissao: 'qualidadeInstalacoes' }
+          ],
+          permissao: 'qualidade'
+        },
+        {
           title: 'Projetos FTTH',
           icon: 'build',
           permissao: 'admin',
