@@ -146,7 +146,7 @@ export default {
         const dataFase2 = moment(instalacao.pesq_instalacao.dataFase2).format('DD-MM-YYYY')
         const dataFase3 = moment(instalacao.pesq_instalacao.dataFase3).format('DD-MM-YYYY')
         const dataHoje = moment(new Date()).format('DD-MM-YYYY')
-        console.log(instalacao.pesq_instalacao.fase)
+
         if (instalacao.pesq_instalacao.fase === 'FASE-01') {
           this.instalacoesFiltradas.push(instalacao)
         }

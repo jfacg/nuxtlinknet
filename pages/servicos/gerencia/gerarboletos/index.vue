@@ -54,7 +54,7 @@
                     </th>
                     <th
                       class="text-left"
-                      width="150px"
+                      width="300px"
                     >
                       Ações
                     </th>

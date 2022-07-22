@@ -135,6 +135,7 @@
                         Boleto Digital: {{ servicoSelecionado.boletodigital === 'S' ? 'Sim' : 'Não' }}<br>
                         Reclamante: {{ servicoSelecionado.reclamante }}<br>
                         Reclamação: {{ servicoSelecionado.tipo_reclamacao ? servicoSelecionado.tipo_reclamacao.tipoNome : '' }}<br>
+                        Relato do cliente: {{ servicoSelecionado.relatoCliente }}<br>
                         Observação: {{ servicoSelecionado.observacao }}<br>
                         <br>
                       </div>
