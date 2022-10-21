@@ -301,6 +301,16 @@ export default {
           ]
         },
         {
+          title: 'Vendas',
+          icon: 'settings',
+          to: '/vendas',
+          permissao: 'vendas',
+          items: [
+            { title: 'Listrar Vendas', to: '/vendas', permissao: 'vendas' }
+            // { title: 'Serviços Executados', to: '/servicos/status/executados', permissao: 'servicos' }
+          ]
+        },
+        {
           title: 'TV',
           icon: 'live_tv',
           to: '/watches',
@@ -332,7 +342,8 @@ export default {
           title: 'Qualidade',
           icon: 'dashboard',
           items: [
-            { title: 'Instalações', to: '/qualidade/instalacoes', permissao: 'qualidadeInstalacoes' }
+            { title: 'Instalações', to: '/qualidade/instalacoes', permissao: 'qualidadeInstalacoes' },
+            { title: 'Resultados', to: '/qualidade/resultados/instalacoes', permissao: 'admin' }
           ],
           permissao: 'qualidade'
         },

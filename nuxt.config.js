@@ -36,6 +36,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // { src: '~/plugins/vue-chartjs.js', ssr: false },
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~/plugins/vue-viacep.js', ssr: false },
     { src: '~/plugins/vuetify-mask.js', ssr: false },

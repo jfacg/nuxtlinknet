@@ -487,7 +487,6 @@ export default {
       this.$axios.$get(URI_BASE_API + API_VERSION + '/servicos/' + this.$route.params.id)
         .then((servico) => {
           this.servico = servico
-          console.log(servico.ixccliente)
         })
     },
 
@@ -509,7 +508,7 @@ export default {
     },
 
     listarTecnicos () {
-      this.$axios.$get(URI_BASE_API + API_VERSION + '/usuarios')
+      this.$axios.$get(URI_BASE_API + API_VERSION + '/usuarios/desbloqueados')
         .then((response) => {
           this.tecnicos = response
         })

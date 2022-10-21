@@ -357,7 +357,7 @@ export default {
           this.$router.push('/servicos')
         })
         .catch((errors) => {
-          const messages = Object.values(errors)
+          const messages = Object.values(errors.response.data)
           messages.forEach((error) => {
             this.$toast.error(error.toString())
           })

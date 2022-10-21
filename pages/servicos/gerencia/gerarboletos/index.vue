@@ -25,7 +25,7 @@
           </v-card-subtitle>
           <v-card-text>
             <v-simple-table
-              height="300px"
+              height="500px"
               fixed-header
             >
               <template #default>
@@ -54,7 +54,7 @@
                     </th>
                     <th
                       class="text-left"
-                      width="300px"
+                      width="150px"
                     >
                       Ações
                     </th>

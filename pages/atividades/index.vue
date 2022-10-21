@@ -251,9 +251,9 @@ export default {
     },
 
     verificarVencimento (data) {
-      const vencimento = moment(new Date(data))
-      const hoje = moment(new Date())
-      if (moment(vencimento).isAfter(hoje)) {
+      const vencimento = moment(data).format('DD/MM/YYYY HH:mm')
+      const hoje = moment(new Date()).format('DD/MM/YYYY HH:mm')
+      if (vencimento > hoje) {
         return 'green'
       } else {
         return 'red'
