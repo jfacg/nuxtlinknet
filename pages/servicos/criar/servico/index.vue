@@ -182,6 +182,7 @@
                           dense
                         />
                         <v-btn
+                          v-if="liberaBotao()"
                           color="primary"
                           large
                           @click.prevent="agendar"
@@ -229,6 +230,8 @@
 <script>
 /* eslint-disable no-console */
 import moment from 'moment'
+import { required } from 'vuelidate/lib/validators'
+import { validationMixin } from 'vuelidate'
 import { URI_BASE_API, API_VERSION } from '@/config/config'
 
 export default {
@@ -236,6 +239,7 @@ export default {
   components: {
 
   },
+  mixins: [validationMixin],
 
   data: () => ({
     itemsBreadcrumbs: [
@@ -300,6 +304,60 @@ export default {
 
   }),
 
+  computed: {
+
+    // reclamanteErrors () {
+    //   const errors = []
+    //   const reclamante = this.$v.servico.reclamante
+    //   if (!reclamante.$dirty) {
+    //     return errors
+    //   }
+
+    //   !reclamante.required && errors.push('Nome do Reclamante é Obrigatório!')
+
+    //   return errors
+    // },
+    // tipoReclamacao_idErrors () {
+    //   const errors = []
+    //   // const tipoReclamacao_id = this.$v.servico.tipoReclamacao_id
+    //   // if (!tipoReclamacao_id.$dirty) {
+    //   //   return errors
+    //   // }
+
+    //   // !tipoReclamacao_id.required && errors.push('Tipo de Reclamação é Obrigatório!')
+
+    //   return errors
+    // },
+    // relatoClienteErrors () {
+    //   const errors = []
+    //   const relatoCliente = this.$v.servico.relatoCliente
+    //   if (!relatoCliente.$dirty) {
+    //     return errors
+    //   }
+
+    //   !relatoCliente.required && errors.push('Nome do Reclamante é Obrigatório!')
+
+    //   return errors
+    // }
+  },
+
+  validations: {
+    servico: {
+      reclamante: {
+        required
+      },
+      tipoReclamacao_id: {
+        required
+      },
+      relatoCliente: {
+        required
+      },
+      dataAgendamento: {
+        required
+      }
+    }
+  },
+
   watch: {
     pesquisar (val) {
       this.loading = true
@@ -362,6 +420,21 @@ export default {
             this.$toast.error(error.toString())
           })
         })
+    },
+
+    liberaBotao () {
+      const reclamante = this.$v.servico.reclamante.required
+      // eslint-disable-next-line camelcase
+      const tipoReclamacao_id = this.$v.servico.tipoReclamacao_id.required
+      const relatoCliente = this.$v.servico.relatoCliente.required
+      const dataAgendamento = this.$v.servico.dataAgendamento.required
+
+      // eslint-disable-next-line camelcase
+      if (reclamante && relatoCliente && tipoReclamacao_id && dataAgendamento) {
+        return true
+      } else {
+        return false
+      }
     },
 
     dadosClienteIxc () {

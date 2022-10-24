@@ -148,6 +148,9 @@
                       Serviço
                     </th>
                     <th class="text-left">
+                      Reclamação
+                    </th>
+                    <th class="text-left">
                       Agendamento
                     </th>
                     <th class="text-left">
@@ -184,6 +187,7 @@
                   >
                     <td>{{ servico.id }}</td>
                     <td>{{ servico.tipo }}</td>
+                    <td>{{ servico.tipo_reclamacao ? servico.tipo_reclamacao.tipoNome : "" }}</td>
                     <td class="text-center">
                       {{ formatarDataHora(servico.dataAgendamento) }}
                     </td>
@@ -291,19 +295,6 @@
                       >
                         <v-icon>edit</v-icon>
                       </v-btn>
-                      <!-- <v-btn
-                        v-if="servico.tipo !== 'INSTALAÇÃO'"
-                        class="ml-2 mr-2"
-                        color="primary"
-                        elevation="10"
-                        icon
-                        x-small
-                        link
-                        exact
-                        :to="{name: 'servicos-editar-servico-id', params: {id:servico.id}}"
-                      >
-                        <v-icon>edit</v-icon>
-                      </v-btn> -->
                     </td>
                   </tr>
                 </tbody>
