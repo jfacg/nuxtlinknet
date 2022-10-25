@@ -37,9 +37,9 @@
                     <th class="text-left">
                       Descrição
                     </th>
-                    <th class="text-left">
+                    <!-- <th class="text-left">
                       Ações
-                    </th>
+                    </th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                     <td>{{ tipo.tipoNome }}</td>
                     <td>{{ tipo.tipoClasse }}</td>
                     <td>{{ tipo.tipoDescricao }}</td>
-                    <td>
+                    <!-- <td>
                       <v-tooltip bottom>
                         <template #activator="{ on, attrs }">
                           <v-btn
@@ -87,7 +87,7 @@
                         </template>
                         <span>Editar: {{ tipo.tipoNome }} </span>
                       </v-tooltip>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
               </template>

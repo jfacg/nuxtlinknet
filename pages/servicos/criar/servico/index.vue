@@ -304,43 +304,6 @@ export default {
 
   }),
 
-  computed: {
-
-    // reclamanteErrors () {
-    //   const errors = []
-    //   const reclamante = this.$v.servico.reclamante
-    //   if (!reclamante.$dirty) {
-    //     return errors
-    //   }
-
-    //   !reclamante.required && errors.push('Nome do Reclamante é Obrigatório!')
-
-    //   return errors
-    // },
-    // tipoReclamacao_idErrors () {
-    //   const errors = []
-    //   // const tipoReclamacao_id = this.$v.servico.tipoReclamacao_id
-    //   // if (!tipoReclamacao_id.$dirty) {
-    //   //   return errors
-    //   // }
-
-    //   // !tipoReclamacao_id.required && errors.push('Tipo de Reclamação é Obrigatório!')
-
-    //   return errors
-    // },
-    // relatoClienteErrors () {
-    //   const errors = []
-    //   const relatoCliente = this.$v.servico.relatoCliente
-    //   if (!relatoCliente.$dirty) {
-    //     return errors
-    //   }
-
-    //   !relatoCliente.required && errors.push('Nome do Reclamante é Obrigatório!')
-
-    //   return errors
-    // }
-  },
-
   validations: {
     servico: {
       reclamante: {
